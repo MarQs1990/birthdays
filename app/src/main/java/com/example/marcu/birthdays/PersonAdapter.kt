@@ -18,12 +18,16 @@ class PersonAdapter(private var mctx: Context, private val personList: List<Pers
         return personList.size
     }
 
-    override fun onBindViewHolder(holder: PersonViewHolder, p1: Int) {
-        var person = personList.get(p1)
-        holder.nameView.setText(person.fi)
+    override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
+        var person = personList.get(position)
+        holder.nameView.setText(person.firstName + " " + person.secondName)
+        holder.ageView.setText(person.getAge())
+        holder.birthdayView.setText(person.birthdayString)
     }
 
     inner class PersonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var nameView = itemView.findViewById<TextView>(R.id.nameView)
+        var ageView = itemView.findViewById<TextView>(R.id.ageView)
+        var birthdayView = itemView.findViewById<TextView>(R.id.birthdayView)
     }
 }

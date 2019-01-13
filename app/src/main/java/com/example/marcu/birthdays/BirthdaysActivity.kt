@@ -8,19 +8,18 @@ import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.activity_birthdays.*
 
-class MainActivity : AppCompatActivity() {
+class BirthdaysActivity : AppCompatActivity() {
 
     private lateinit var birthdayView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private lateinit var birthdays: Array<String>
+    private lateinit var birthdays: List<Person>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_birthdays)
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
@@ -28,10 +27,14 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-        birthdays = arrayOf("Geburtstag 1", "Geburtstag 2", "Geburtstag 3")
+        var marcus = Person("Marcus", "Trepte", "10.08.1990")
+        var luisa = Person("Luisa", "Spieß", "31.07.1994")
+        var falk = Person("Falk", "Caspar", "21.01.1990")
+
+        birthdays = mutableListOf(marcus, luisa, falk)
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = MyAdapter(birthdays)
+        viewAdapter = PersonAdapter(this, birthdays)
 
         birthdayView = findViewById<RecyclerView>(R.id.birthdayView).apply {
             // use this setting to improve performance if you know that changes
@@ -43,11 +46,7 @@ class MainActivity : AppCompatActivity() {
 
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
-
         }
-
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
