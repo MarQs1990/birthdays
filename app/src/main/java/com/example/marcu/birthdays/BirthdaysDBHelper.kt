@@ -31,7 +31,7 @@ class MyDBHandler(context: Context, name: String?, factory: SQLiteDatabase.Curso
         val COLUMN_BIRTHDAY = "birthday"
     }
 
-    fun addPERSON(person: Person) {
+    fun addPerson(person: Person) {
         val values = ContentValues()
         values.put(COLUMN_FIRSTNAME, person.firstName)
         values.put(COLUMN_SECONDNAME, person.secondName)
