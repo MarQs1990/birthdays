@@ -2,7 +2,7 @@ package com.example.marcu.birthdays
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
@@ -10,13 +10,13 @@ import android.view.*
 import kotlinx.android.synthetic.main.activity_birthdays.*
 
 class BirthdaysActivity : AppCompatActivity() {
-    val MENU_REMOVE = 1;
-    val MENU_EDIT = 2;
+    private val MENU_REMOVE = 1
+    private val MENU_EDIT = 2
 
     override fun onContextItemSelected(item: MenuItem?): Boolean {
         val person = birthdays[item!!.groupId]
         val dbHandler = BirthdaysDBHandler(this)
-        when (item!!.itemId){
+        when (item.itemId){
             MENU_REMOVE -> dbHandler.deletePerson(person.firstName, person.secondName)
             //TODO Implementierung des "Bearbeiten" Button
         }
@@ -37,7 +37,7 @@ class BirthdaysActivity : AppCompatActivity() {
         setContentView(R.layout.activity_birthdays)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener {
             val intent = Intent(this, NewPersonActivity::class.java)
             startActivity(intent)
         }
@@ -49,9 +49,9 @@ class BirthdaysActivity : AppCompatActivity() {
 
         val dbHandler = BirthdaysDBHandler(this)
 
-        val intent = getIntent()
+        val intent = Intent()
         val month = intent.getIntExtra("Month", 1)
-        birthdays = dbHandler.findallPeople(month)
+        birthdays = dbHandler.findAllPeople(month)
 
 
         viewManager = LinearLayoutManager(this)

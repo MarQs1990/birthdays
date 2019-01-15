@@ -25,15 +25,15 @@ class BirthdaysDBHandler(context: Context) :
 
     companion object {
 
-        private val DATABASE_VERSION = 4
-        private val DATABASE_NAME = "birthdays.db"
-        val TABLE_PEOPLE = "people"
+        private const val DATABASE_VERSION = 4
+        private const val DATABASE_NAME = "birthdays.db"
+        private const val TABLE_PEOPLE = "people"
 
-        val COLUMN_ID = "_id"
-        val COLUMN_FIRSTNAME = "firstname"
-        val COLUMN_SECONDNAME = "secondname"
-        val COLUMN_BIRTHDAY = "birthday"
-        val COLUMN_BIRTHDAYMONTH = "birthdaymonth"
+        private const val COLUMN_ID = "_id"
+        private const val COLUMN_FIRSTNAME = "firstname"
+        private const val COLUMN_SECONDNAME = "secondname"
+        private const val COLUMN_BIRTHDAY = "birthday"
+        private const val COLUMN_BIRTHDAYMONTH = "birthdaymonth"
     }
 
     fun addPerson(person: Person) {
@@ -53,14 +53,14 @@ class BirthdaysDBHandler(context: Context) :
         db.close()
     }
 
-    fun findallPeople(month: Int): MutableList<Person>{
-        val query: String
-        if (month == 13){
-            query = "SELECT * FROM $TABLE_PEOPLE"
+    fun findAllPeople(month: Int): MutableList<Person>{
+
+        val query = if (month == 12){
+            "SELECT * FROM $TABLE_PEOPLE"
         }else {
-            query = "SELECT * FROM $TABLE_PEOPLE WHERE $COLUMN_BIRTHDAYMONTH = $month "
+            "SELECT * FROM $TABLE_PEOPLE WHERE $COLUMN_BIRTHDAYMONTH = $month "
         }
-        var people: MutableList<Person> = mutableListOf()
+        val people: MutableList<Person> = mutableListOf()
 
         val db = this.writableDatabase
         val cursor = db.rawQuery(query, null)
@@ -116,7 +116,7 @@ class BirthdaysDBHandler(context: Context) :
 
         if (cursor.moveToFirst()) {
             val id = Integer.parseInt(cursor.getString(0))
-            db.delete(TABLE_PEOPLE, COLUMN_ID + " = ?", arrayOf(id.toString()))
+            db.delete(TABLE_PEOPLE, "$COLUMN_ID = ?", arrayOf(id.toString()))
             cursor.close()
             result = true
         }

@@ -5,21 +5,19 @@ import java.time.format.DateTimeFormatter
 
 class Person(fName: String, sName: String, birthdayStr:String){
 
-    val firstName: String
-    val secondName: String
+    val firstName: String = fName.capitalize()
+    val secondName: String = sName.capitalize()
     val birthdayString = birthdayStr
     val birthday: LocalDate
 
-    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+    private val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")!!
 
     init{
-        firstName = fName.capitalize()
-        secondName = sName.capitalize()
         birthday = LocalDate.parse(birthdayString, formatter)
     }
 
     fun getAge(): String{
-        var age:String
+        val age:String
 
         val currentDate = LocalDate.now()
 
@@ -31,16 +29,16 @@ class Person(fName: String, sName: String, birthdayStr:String){
         val currentMonth = currentDate.month
         val currentDay = currentDate.dayOfMonth
 
-        if (birthdayMonth == currentMonth){
+        age = if (birthdayMonth == currentMonth){
             if (birthdayDay < currentDay){
-                age = Integer.toString(currentYear - birthdayYear - 1)
+                Integer.toString(currentYear - birthdayYear - 1)
             } else{
-                age = Integer.toString(currentYear - birthdayYear)
+                Integer.toString(currentYear - birthdayYear)
             }
         } else if (birthdayMonth > currentMonth){
-            age =  Integer.toString(currentYear - birthdayYear - 1)
+            Integer.toString(currentYear - birthdayYear - 1)
         } else{
-            age = Integer.toString(currentYear - birthdayYear)
+            Integer.toString(currentYear - birthdayYear)
         }
 
         return age
