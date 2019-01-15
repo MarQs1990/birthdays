@@ -51,13 +51,17 @@ class BirthdaysDBHandler(context: Context) :
         val db = this.writableDatabase
         db.insert(TABLE_PEOPLE, null, values)
         db.close()
-        println("Geburtstag hinzugefügt")
     }
 
     fun findallPeople(month: Int): MutableList<Person>{
-
+        val query: String
+        if (month == 13){
+            query = "SELECT * FROM $TABLE_PEOPLE"
+        }else {
+            query = "SELECT * FROM $TABLE_PEOPLE WHERE $COLUMN_BIRTHDAYMONTH = $month "
+        }
         var people: MutableList<Person> = mutableListOf()
-        val query = "SELECT * FROM $TABLE_PEOPLE WHERE $COLUMN_BIRTHDAYMONTH = $month "
+
         val db = this.writableDatabase
         val cursor = db.rawQuery(query, null)
 
@@ -70,12 +74,11 @@ class BirthdaysDBHandler(context: Context) :
         cursor.close()
         db.close()
 
-        println("Alle Daten für Monat " + Integer.toString(month) + " geladen")
-
         return people
     }
 
     fun findPerson(fname: String, sname: String): Person? {
+        //TODO Birthday in Query einbauen, damit die Suche eindeutiger ist (gleicher Name mehrerer Personen)
 
         val query =
             "SELECT * FROM $TABLE_PEOPLE WHERE $COLUMN_FIRSTNAME = \"$fname\" AND $COLUMN_SECONDNAME = \"$sname\""
@@ -100,6 +103,7 @@ class BirthdaysDBHandler(context: Context) :
     }
 
     fun deletePerson(fname: String, sname: String): Boolean {
+        //TODO Birthday in Query einbauen, damit die Suche eindeutiger ist (gleicher Name mehrerer Personen)
 
         var result = false
 
@@ -118,5 +122,10 @@ class BirthdaysDBHandler(context: Context) :
         }
 
         return result
+    }
+
+    fun editPerson(person: Person, fname:String, sname: String, birthday: String): Boolean{
+        //TODO Implementierung der Logik für bearbeiten einer Person (entweder Eintrag bearbeiten oder löschen + hinzufügen)
+        return true
     }
 }

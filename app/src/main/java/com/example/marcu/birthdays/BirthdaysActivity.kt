@@ -2,16 +2,30 @@ package com.example.marcu.birthdays
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
 
 import kotlinx.android.synthetic.main.activity_birthdays.*
 
 class BirthdaysActivity : AppCompatActivity() {
+    val MENU_REMOVE = 1;
+    val MENU_EDIT = 2;
+
+    override fun onContextItemSelected(item: MenuItem?): Boolean {
+        val person = birthdays[item!!.groupId]
+        val dbHandler = BirthdaysDBHandler(this)
+        when (item!!.itemId){
+            MENU_REMOVE -> dbHandler.deletePerson(person.firstName, person.secondName)
+            //TODO Implementierung des "Bearbeiten" Button
+        }
+
+        viewAdapter.notifyDataSetChanged()
+        return true
+    }
+
+
 
     private lateinit var birthdayView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -37,8 +51,8 @@ class BirthdaysActivity : AppCompatActivity() {
 
         val intent = getIntent()
         val month = intent.getIntExtra("Month", 1)
-
         birthdays = dbHandler.findallPeople(month)
+
 
         viewManager = LinearLayoutManager(this)
         viewAdapter = PersonAdapter(this, birthdays)
@@ -53,6 +67,8 @@ class BirthdaysActivity : AppCompatActivity() {
 
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
+
+            registerForContextMenu(this)
         }
 
 
@@ -78,4 +94,5 @@ class BirthdaysActivity : AppCompatActivity() {
         super.onResume()
         viewAdapter.notifyDataSetChanged()
     }
+
 }

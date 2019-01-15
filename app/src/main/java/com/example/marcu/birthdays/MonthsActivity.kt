@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_months.*
 
 class MonthsActivity : AppCompatActivity() {
 
-    val months: List<String> = listOf("Januar", "Februar", "März", "April","Mai","Juni","Juli","August","September","Oktober","November","Dezember")
+    val months: List<String> = listOf("Januar", "Februar", "März", "April","Mai","Juni","Juli","August","September","Oktober","November","Dezember", "Alle Geburtstage")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
