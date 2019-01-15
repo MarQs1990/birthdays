@@ -5,12 +5,16 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class MyDBHandler(context: Context, name: String?, factory: SQLiteDatabase.CursorFactory?, version: Int) :
-        SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
+class BirthdaysDBHandler(context: Context) :
+        SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase) {
-        val CREATE_PEOPLE_TABLE = ("CREATE TABLE " + TABLE_PEOPLE + "(" + COLUMN_ID + " INTEGER PRIMARY KEY,"
-                + COLUMN_FIRSTNAME + " TEXT," + COLUMN_SECONDNAME + " TEXT," + COLUMN_BIRTHDAY + " TEXT" + ")")
+        val CREATE_PEOPLE_TABLE = ("CREATE TABLE " + TABLE_PEOPLE + "("
+                + COLUMN_ID + " INTEGER PRIMARY KEY,"
+                + COLUMN_FIRSTNAME + " TEXT,"
+                + COLUMN_SECONDNAME + " TEXT,"
+                + COLUMN_BIRTHDAY +  " TEXT,"
+                + COLUMN_BIRTHDAYMONTH + " INTEGER" + ")")
         db.execSQL(CREATE_PEOPLE_TABLE)
     }
 
@@ -29,6 +33,7 @@ class MyDBHandler(context: Context, name: String?, factory: SQLiteDatabase.Curso
         val COLUMN_FIRSTNAME = "firstname"
         val COLUMN_SECONDNAME = "secondname"
         val COLUMN_BIRTHDAY = "birthday"
+        val COLUMN_BIRTHDAYMONTH = "birthdaymonth"
     }
 
     fun addPerson(person: Person) {
@@ -36,10 +41,38 @@ class MyDBHandler(context: Context, name: String?, factory: SQLiteDatabase.Curso
         values.put(COLUMN_FIRSTNAME, person.firstName)
         values.put(COLUMN_SECONDNAME, person.secondName)
         values.put(COLUMN_BIRTHDAY, person.birthdayString)
+        values.put(COLUMN_BIRTHDAYMONTH, person.birthday.monthValue)
+
+        println(person.firstName)
+        println(person.secondName)
+        println(person.birthdayString)
+        println(person.birthday.monthValue)
 
         val db = this.writableDatabase
         db.insert(TABLE_PEOPLE, null, values)
         db.close()
+        println("Geburtstag hinzugefügt")
+    }
+
+    fun findallPeople(month: Int): MutableList<Person>{
+
+        var people: MutableList<Person> = mutableListOf()
+        val query = "SELECT * FROM $TABLE_PEOPLE WHERE $COLUMN_BIRTHDAYMONTH = $month "
+        val db = this.writableDatabase
+        val cursor = db.rawQuery(query, null)
+
+        if (cursor.moveToFirst()){
+            people.add(Person(cursor.getString(1), cursor.getString(2), cursor.getString(3)))
+            while(cursor.moveToNext()){
+                people.add(Person(cursor.getString(1), cursor.getString(2), cursor.getString(3)))
+            }
+        }
+        cursor.close()
+        db.close()
+
+        println("Alle Daten für Monat " + Integer.toString(month) + " geladen")
+
+        return people
     }
 
     fun findPerson(fname: String, sname: String): Person? {

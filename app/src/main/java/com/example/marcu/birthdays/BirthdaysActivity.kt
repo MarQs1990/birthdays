@@ -16,7 +16,7 @@ class BirthdaysActivity : AppCompatActivity() {
     private lateinit var birthdayView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private lateinit var birthdays: List<Person>
+    private lateinit var birthdays: MutableList<Person>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,11 +28,17 @@ class BirthdaysActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        var marcus = Person("Marcus", "Trepte", "10.08.1990")
-        var luisa = Person("Luisa", "Spieß", "31.07.1994")
-        var falk = Person("Falk", "Caspar", "21.01.1990")
+        val actionbar = supportActionBar
+        actionbar!!.setTitle("Geburtstage")
+        actionbar.setDisplayHomeAsUpEnabled(true)
 
-        birthdays = mutableListOf(marcus, luisa, falk)
+
+        val dbHandler = BirthdaysDBHandler(this)
+
+        val intent = getIntent()
+        val month = intent.getIntExtra("Month", 1)
+
+        birthdays = dbHandler.findallPeople(month)
 
         viewManager = LinearLayoutManager(this)
         viewAdapter = PersonAdapter(this, birthdays)
@@ -48,6 +54,8 @@ class BirthdaysActivity : AppCompatActivity() {
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
         }
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -64,5 +72,10 @@ class BirthdaysActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewAdapter.notifyDataSetChanged()
     }
 }

@@ -16,7 +16,7 @@ class NewPersonActivity : AppCompatActivity() {
     }
 
     fun saveNewPerson(view: View) {
-        val dbHandler = MyDBHandler(this, null, null, 4)
+        val dbHandler = BirthdaysDBHandler(this)
 
         val fname = fnameText.text.toString()
         val sname = snameText.text.toString()

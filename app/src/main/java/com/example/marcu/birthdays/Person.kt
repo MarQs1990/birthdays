@@ -3,7 +3,6 @@ package com.example.marcu.birthdays
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-@Suppress("DEPRECATION")
 class Person(fName: String, sName: String, birthdayStr:String){
 
     val firstName: String
