@@ -4,6 +4,10 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.widget.Toast
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class BirthdaysDBHandler(context: Context) :
         SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -36,26 +40,24 @@ class BirthdaysDBHandler(context: Context) :
         private const val COLUMN_BIRTHDAYMONTH = "birthdaymonth"
     }
 
-    fun addPerson(person: Person) {
+    fun addPerson(person: Person, context: Context) {
         val values = ContentValues()
         values.put(COLUMN_FIRSTNAME, person.firstName)
         values.put(COLUMN_SECONDNAME, person.secondName)
         values.put(COLUMN_BIRTHDAY, person.birthdayString)
         values.put(COLUMN_BIRTHDAYMONTH, person.birthday.monthValue)
 
-        println(person.firstName)
-        println(person.secondName)
-        println(person.birthdayString)
-        println(person.birthday.monthValue)
-
         val db = this.writableDatabase
         db.insert(TABLE_PEOPLE, null, values)
         db.close()
+
+        Toast.makeText(context, "${person.firstName} ${person.secondName} hinzugefügt", Toast.LENGTH_LONG)
+        println("${person.firstName} ${person.secondName} hinzugefügt")
     }
 
     fun findAllPeople(month: Int): MutableList<Person>{
 
-        val query = if (month == 12){
+        val query = if (month == 13){
             "SELECT * FROM $TABLE_PEOPLE"
         }else {
             "SELECT * FROM $TABLE_PEOPLE WHERE $COLUMN_BIRTHDAYMONTH = $month "
@@ -127,5 +129,76 @@ class BirthdaysDBHandler(context: Context) :
     fun editPerson(person: Person, fname:String, sname: String, birthday: String): Boolean{
         //TODO Implementierung der Logik für bearbeiten einer Person (entweder Eintrag bearbeiten oder löschen + hinzufügen)
         return true
+    }
+
+    fun findNextTenBirthdays(): MutableList<Person>{
+        var allPeople = findAllPeople(13)
+        var birthdaysBeforeToday: MutableList<Person> = mutableListOf()
+        var birthdaysAfterToday: MutableList<Person> = mutableListOf()
+        var today = LocalDate.now()
+
+        val next10People: MutableList<Person> = mutableListOf()
+        allPeople = bubbleSortMonth(allPeople)
+        allPeople = bubbleSortDay(allPeople)
+
+        for (person in allPeople){
+            if (person.birthday.monthValue < today.monthValue){
+                birthdaysBeforeToday.add(person)
+            } else if (person.birthday.monthValue == today.monthValue &&
+                    person.birthday.dayOfMonth < today.dayOfMonth){
+                birthdaysBeforeToday.add(person)
+            } else {
+                birthdaysAfterToday.add(person)
+            }
+        }
+
+        if(birthdaysAfterToday.size <= 10){
+            for (i in 0 until birthdaysAfterToday.size){
+                next10People.add(birthdaysAfterToday[i])
+            }
+            if (birthdaysBeforeToday.size <= 10 - birthdaysAfterToday.size){
+                for (i in 0 until birthdaysBeforeToday.size){
+                    next10People.add(birthdaysBeforeToday[i])
+                }
+            } else {
+                for (i in 0 until 10 - birthdaysAfterToday.size){
+                    next10People.add(birthdaysBeforeToday[i])
+                }
+            }
+
+        } else {
+            for (i in 0..9){
+                next10People.add(birthdaysAfterToday[i])
+            }
+        }
+
+        return next10People
+    }
+
+    fun bubbleSortMonth(allPeople: MutableList<Person>): MutableList<Person>{
+        for (pass in 0 until(allPeople.size - 1)){
+            for (currentPosition in 0 until (allPeople.size - pass - 1)){
+                if (allPeople[currentPosition].birthday.monthValue > allPeople[currentPosition + 1].birthday.monthValue){
+                    val tmp = allPeople[currentPosition]
+                    allPeople[currentPosition] = allPeople[currentPosition + 1]
+                    allPeople[currentPosition + 1] = tmp
+                }
+            }
+        }
+        return allPeople
+    }
+
+    fun bubbleSortDay(allPeople: MutableList<Person>): MutableList<Person>{
+        for (pass in 0 until(allPeople.size - 1)){
+            for (currentPosition in 0 until (allPeople.size - pass - 1)){
+                if (allPeople[currentPosition].birthday.monthValue == allPeople[currentPosition + 1].birthday.monthValue &&
+                    allPeople[currentPosition].birthday.dayOfMonth > allPeople[currentPosition + 1].birthday.dayOfMonth){
+                    val tmp = allPeople[currentPosition]
+                    allPeople[currentPosition] = allPeople[currentPosition + 1]
+                    allPeople[currentPosition + 1] = tmp
+                }
+            }
+        }
+        return allPeople
     }
 }

@@ -22,7 +22,7 @@ class NewPersonActivity : AppCompatActivity() {
 
         val person = Person(fname, sname, birthday)
 
-        dbHandler.addPerson(person)
+        dbHandler.addPerson(person, this)
 
         goToBirthdays()
     }
@@ -32,6 +32,7 @@ class NewPersonActivity : AppCompatActivity() {
     }
 
     private fun goToBirthdays(){
+        //TODO Implementierung, dass nach Speichern die Startseite mit den nächsten 10 Geburtstagen angezeigt wird
         val intent = Intent(this, BirthdaysActivity::class.java)
         startActivity(intent)
     }

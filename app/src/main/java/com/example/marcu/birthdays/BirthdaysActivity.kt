@@ -42,16 +42,19 @@ class BirthdaysActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val dbHandler = BirthdaysDBHandler(this)
+        val intent = intent
         val actionbar = supportActionBar
+
+        val month = intent.getIntExtra("Month", 1)
+        if (month < 14){
+            birthdays = dbHandler.findAllPeople(month)
+        } else{
+            birthdays = dbHandler.findNextTenBirthdays()
+        }
+
         actionbar!!.setTitle("Geburtstage")
         actionbar.setDisplayHomeAsUpEnabled(true)
-
-
-        val dbHandler = BirthdaysDBHandler(this)
-
-        val intent = Intent()
-        val month = intent.getIntExtra("Month", 1)
-        birthdays = dbHandler.findAllPeople(month)
 
 
         viewManager = LinearLayoutManager(this)
