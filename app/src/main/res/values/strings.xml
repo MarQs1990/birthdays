@@ -17,4 +17,23 @@
     <string name="year">Jahr</string>
     <string name="headline_edit_person">Ändere die Daten des Geburtstages</string>
     <string name="headline_new_person">Füge einen neuen Geburtstag hinzu</string>
+    <string name="avatar_description">Zeigt den Avatar des Benutzers</string>
+    <string name="user_name">Marcus Trepte</string>
+    <string name="user_mail">marcus.trepte90@web.de</string>
+    <string name="delete_person">löschen</string>
+    <string name="edit_person">bearbeiten</string>
+    <string name="january">Januar</string>
+    <string name="february">Februar</string>
+    <string name="march">März</string>
+    <string name="april">April</string>
+    <string name="may">Mai</string>
+    <string name="june">Juni</string>
+    <string name="july">Juli</string>
+    <string name="august">August</string>
+    <string name="september">September</string>
+    <string name="october">Oktober</string>
+    <string name="november">November</string>
+    <string name="december">Dezember</string>
+    <string name="next_ten_birthdays">Nächste 10 Geburtstage</string>
+    <string name="all_birthdays">Alle Geburtstage</string>
 </resources>
