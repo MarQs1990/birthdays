@@ -25,12 +25,7 @@
                 android:parentActivityName=".StartActivity"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity
-                android:name=".MonthsActivity"
-                android:label="@string/title_activity_months"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity android:name=".NewPersonActivity">
+        <activity android:name=".SavePersonActivity">
         </activity>
     </application>
 

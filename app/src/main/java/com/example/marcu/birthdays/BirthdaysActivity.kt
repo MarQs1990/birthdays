@@ -10,27 +10,15 @@ import android.view.*
 import kotlinx.android.synthetic.main.activity_birthdays.*
 
 class BirthdaysActivity : AppCompatActivity() {
-    private val MENU_REMOVE = 1
-    private val MENU_EDIT = 2
-
-    override fun onContextItemSelected(item: MenuItem?): Boolean {
-        val person = birthdays[item!!.groupId]
-        val dbHandler = BirthdaysDBHandler(this)
-        when (item.itemId){
-            MENU_REMOVE -> dbHandler.deletePerson(person.firstName, person.secondName)
-            //TODO Implementierung des "Bearbeiten" Button
-        }
-
-        viewAdapter.notifyDataSetChanged()
-        return true
-    }
-
-
+    private val menuRemove = 1
+    private val menuEdit = 2
 
     private lateinit var birthdayView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var birthdays: MutableList<Person>
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +26,7 @@ class BirthdaysActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener {
-            val intent = Intent(this, NewPersonActivity::class.java)
+            val intent = Intent(this, SavePersonActivity::class.java)
             startActivity(intent)
         }
 
@@ -73,8 +61,6 @@ class BirthdaysActivity : AppCompatActivity() {
 
             registerForContextMenu(this)
         }
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -91,6 +77,22 @@ class BirthdaysActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onContextItemSelected(item: MenuItem?): Boolean {
+        val person = birthdays[item!!.groupId]
+        val dbHandler = BirthdaysDBHandler(this)
+        val intent = Intent(this, SavePersonActivity::class.java)
+        intent.putExtra("first name", person.firstName)
+        intent.putExtra("second name", person.secondName)
+        intent.putExtra("birthday", person.birthdayString)
+        when (item.itemId){
+            menuRemove -> dbHandler.deletePerson(person.firstName, person.secondName, person.birthdayString)
+            menuEdit -> startActivity(intent)
+        }
+
+        viewAdapter.notifyDataSetChanged()
+        return true
     }
 
     override fun onResume() {

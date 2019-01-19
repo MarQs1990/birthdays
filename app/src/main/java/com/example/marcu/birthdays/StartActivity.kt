@@ -20,7 +20,7 @@ class StartActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         setContentView(R.layout.activity_start)
 
         fab.setOnClickListener {
-            val intent = Intent(this, NewPersonActivity::class.java)
+            val intent = Intent(this, SavePersonActivity::class.java)
             startActivity(intent)
         }
 
@@ -36,8 +36,6 @@ class StartActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         drawer.addDrawerListener(toggle)
 
         toggle.syncState()
-
-        //TODO implementieren, dass ausgewählter Monat in Sidebar als fett gekennzeichnet wird
     }
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {

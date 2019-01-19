@@ -30,13 +30,13 @@ class PersonAdapter(private var mctx: Context, private val personList: List<Pers
     }
 
     inner class PersonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), OnCreateContextMenuListener {
-        private val MENU_REMOVE = 1
-        private val MENU_EDIT = 2
+        private val menuRemove = 1
+        private val menuEdit = 2
 
         override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
             menu!!.setHeaderTitle("Wähle eine Option")
-            menu.add(this.adapterPosition, MENU_REMOVE, 0, "löschen")
-            menu.add(this.adapterPosition, MENU_EDIT, 0, "bearbeiten")
+            menu.add(this.adapterPosition, menuRemove, 0, "löschen")
+            menu.add(this.adapterPosition, menuEdit, 0, "bearbeiten")
         }
 
         var nameView = itemView.findViewById<TextView>(R.id.nameView)!!

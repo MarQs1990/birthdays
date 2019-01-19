@@ -8,4 +8,13 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="first_name">Vorname</string>
+    <string name="second_name">Nachname</string>
+    <string name="save">Speichern</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="day">Tag</string>
+    <string name="month">Monat</string>
+    <string name="year">Jahr</string>
+    <string name="headline_edit_person">Ändere die Daten des Geburtstages</string>
+    <string name="headline_new_person">Füge einen neuen Geburtstag hinzu</string>
 </resources>

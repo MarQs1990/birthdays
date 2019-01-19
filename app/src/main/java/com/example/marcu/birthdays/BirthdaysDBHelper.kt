@@ -7,23 +7,22 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 class BirthdaysDBHandler(context: Context) :
         SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase) {
-        val CREATE_PEOPLE_TABLE = ("CREATE TABLE " + TABLE_PEOPLE + "("
+        val createPeopleTable = ("CREATE TABLE " + TABLE_PEOPLE + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY,"
                 + COLUMN_FIRSTNAME + " TEXT,"
                 + COLUMN_SECONDNAME + " TEXT,"
                 + COLUMN_BIRTHDAY +  " TEXT,"
                 + COLUMN_BIRTHDAYMONTH + " INTEGER" + ")")
-        db.execSQL(CREATE_PEOPLE_TABLE)
+        db.execSQL(createPeopleTable)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PEOPLE)
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_PEOPLE")
         onCreate(db)
     }
 
@@ -51,8 +50,53 @@ class BirthdaysDBHandler(context: Context) :
         db.insert(TABLE_PEOPLE, null, values)
         db.close()
 
-        Toast.makeText(context, "${person.firstName} ${person.secondName} hinzugefügt", Toast.LENGTH_LONG)
+        Toast.makeText(context, "Eintrag hinzugefügt", Toast.LENGTH_LONG).show()
         println("${person.firstName} ${person.secondName} hinzugefügt")
+    }
+
+    fun editPerson(person: Person, context: Context){
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")!!
+        val birthday = LocalDate.parse(person.birthdayString, formatter)
+
+        val fname = person.firstName
+        val sname = person.secondName
+        val birthdayString = person.birthdayString
+
+        val values = ContentValues()
+        values.put(COLUMN_FIRSTNAME, fname)
+        values.put(COLUMN_SECONDNAME, sname)
+        values.put(COLUMN_BIRTHDAY, birthdayString)
+        values.put(COLUMN_BIRTHDAYMONTH, birthday.monthValue)
+
+        val query =
+            "SELECT * FROM $TABLE_PEOPLE WHERE $COLUMN_FIRSTNAME = \"$fname\" AND $COLUMN_SECONDNAME = \"$sname\" AND $COLUMN_BIRTHDAY = \"$birthdayString\""
+
+        val db = this.writableDatabase
+
+        val cursor = db.rawQuery(query, null)
+
+        if (cursor.moveToFirst()) {
+            val id = cursor.getString(0)
+            db.update(TABLE_PEOPLE, values, "_id = $id", null)
+            cursor.close()
+        }
+
+        Toast.makeText(context, "Eintrag geändert", Toast.LENGTH_LONG).show()
+    }
+
+    fun deletePerson(fname: String, sname: String, birthdayString: String) {
+        val query =
+            "SELECT * FROM $TABLE_PEOPLE WHERE $COLUMN_FIRSTNAME = \"$fname\" AND $COLUMN_SECONDNAME = \"$sname\" AND $COLUMN_BIRTHDAY = \"$birthdayString\""
+
+        val db = this.writableDatabase
+
+        val cursor = db.rawQuery(query, null)
+
+        if (cursor.moveToFirst()) {
+            val id = Integer.parseInt(cursor.getString(0))
+            db.delete(TABLE_PEOPLE, "$COLUMN_ID = ?", arrayOf(id.toString()))
+            cursor.close()
+        }
     }
 
     fun findAllPeople(month: Int): MutableList<Person>{
@@ -79,11 +123,10 @@ class BirthdaysDBHandler(context: Context) :
         return people
     }
 
-    fun findPerson(fname: String, sname: String): Person? {
-        //TODO Birthday in Query einbauen, damit die Suche eindeutiger ist (gleicher Name mehrerer Personen)
+    fun findPerson(fname: String, sname: String, birthdayString: String): Person? {
 
         val query =
-            "SELECT * FROM $TABLE_PEOPLE WHERE $COLUMN_FIRSTNAME = \"$fname\" AND $COLUMN_SECONDNAME = \"$sname\""
+            "SELECT * FROM $TABLE_PEOPLE WHERE $COLUMN_FIRSTNAME = \"$fname\" AND $COLUMN_SECONDNAME = \"$sname\" AND $COLUMN_BIRTHDAY = \"$birthdayString\""
 
         val db = this.writableDatabase
 
@@ -104,38 +147,11 @@ class BirthdaysDBHandler(context: Context) :
         return person
     }
 
-    fun deletePerson(fname: String, sname: String): Boolean {
-        //TODO Birthday in Query einbauen, damit die Suche eindeutiger ist (gleicher Name mehrerer Personen)
-
-        var result = false
-
-        val query =
-            "SELECT * FROM $TABLE_PEOPLE WHERE $COLUMN_FIRSTNAME = \"$fname\" AND $COLUMN_SECONDNAME = \"$sname\""
-
-        val db = this.writableDatabase
-
-        val cursor = db.rawQuery(query, null)
-
-        if (cursor.moveToFirst()) {
-            val id = Integer.parseInt(cursor.getString(0))
-            db.delete(TABLE_PEOPLE, "$COLUMN_ID = ?", arrayOf(id.toString()))
-            cursor.close()
-            result = true
-        }
-
-        return result
-    }
-
-    fun editPerson(person: Person, fname:String, sname: String, birthday: String): Boolean{
-        //TODO Implementierung der Logik für bearbeiten einer Person (entweder Eintrag bearbeiten oder löschen + hinzufügen)
-        return true
-    }
-
     fun findNextTenBirthdays(): MutableList<Person>{
         var allPeople = findAllPeople(13)
-        var birthdaysBeforeToday: MutableList<Person> = mutableListOf()
-        var birthdaysAfterToday: MutableList<Person> = mutableListOf()
-        var today = LocalDate.now()
+        val birthdaysBeforeToday: MutableList<Person> = mutableListOf()
+        val birthdaysAfterToday: MutableList<Person> = mutableListOf()
+        val today = LocalDate.now()
 
         val next10People: MutableList<Person> = mutableListOf()
         allPeople = bubbleSortMonth(allPeople)
@@ -175,7 +191,7 @@ class BirthdaysDBHandler(context: Context) :
         return next10People
     }
 
-    fun bubbleSortMonth(allPeople: MutableList<Person>): MutableList<Person>{
+    private fun bubbleSortMonth(allPeople: MutableList<Person>): MutableList<Person>{
         for (pass in 0 until(allPeople.size - 1)){
             for (currentPosition in 0 until (allPeople.size - pass - 1)){
                 if (allPeople[currentPosition].birthday.monthValue > allPeople[currentPosition + 1].birthday.monthValue){
@@ -188,7 +204,7 @@ class BirthdaysDBHandler(context: Context) :
         return allPeople
     }
 
-    fun bubbleSortDay(allPeople: MutableList<Person>): MutableList<Person>{
+    private fun bubbleSortDay(allPeople: MutableList<Person>): MutableList<Person>{
         for (pass in 0 until(allPeople.size - 1)){
             for (currentPosition in 0 until (allPeople.size - pass - 1)){
                 if (allPeople[currentPosition].birthday.monthValue == allPeople[currentPosition + 1].birthday.monthValue &&
