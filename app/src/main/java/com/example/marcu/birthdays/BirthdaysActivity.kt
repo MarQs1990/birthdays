@@ -47,13 +47,13 @@ class BirthdaysActivity : AppCompatActivity() {
         val actionbar = supportActionBar
 
         val month = intent.getIntExtra("Month", 1)
-        if (month < 14){
-            birthdays = dbHandler.findAllPeople(month)
+        birthdays = if (month < 14){
+            dbHandler.findAllPeople(month)
         } else{
-            birthdays = dbHandler.findNextTenBirthdays()
+            dbHandler.findNextTenBirthdays()
         }
 
-        actionbar!!.setTitle("Geburtstage")
+        actionbar!!.title = "Geburtstage"
         actionbar.setDisplayHomeAsUpEnabled(true)
 
 

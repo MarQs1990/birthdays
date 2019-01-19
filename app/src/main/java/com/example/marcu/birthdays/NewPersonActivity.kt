@@ -18,7 +18,11 @@ class NewPersonActivity : AppCompatActivity() {
 
         val fname = fnameText.text.toString()
         val sname = snameText.text.toString()
-        val birthday = birthdayText.text.toString()
+        val day = dayText.text.toString()
+        val month = monthText.text.toString()
+        val year = yearText.text.toString()
+
+        val birthday = "$day.$month.$year"
 
         val person = Person(fname, sname, birthday)
 
@@ -32,8 +36,7 @@ class NewPersonActivity : AppCompatActivity() {
     }
 
     private fun goToBirthdays(){
-        //TODO Implementierung, dass nach Speichern die Startseite mit den nächsten 10 Geburtstagen angezeigt wird
-        val intent = Intent(this, BirthdaysActivity::class.java)
+        val intent = Intent(this, StartActivity::class.java)
         startActivity(intent)
     }
 
