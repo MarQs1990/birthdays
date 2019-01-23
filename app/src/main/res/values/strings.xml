@@ -15,8 +15,8 @@
     <string name="day">Tag</string>
     <string name="month">Monat</string>
     <string name="year">Jahr</string>
-    <string name="headline_edit_person">Ändere die Daten des Geburtstages</string>
-    <string name="headline_new_person">Füge einen neuen Geburtstag hinzu</string>
+    <string name="headline_new_person">Neuen Geburtstag hinzufügen</string>
+    <string name="headline_edit_person">Geburtstag bearbeiten</string>
     <string name="avatar_description">Zeigt den Avatar des Benutzers</string>
     <string name="user_name">Marcus Trepte</string>
     <string name="user_mail">marcus.trepte90@web.de</string>
@@ -37,4 +37,7 @@
     <string name="next_ten_birthdays">Nächste 10 Geburtstage</string>
     <string name="all_birthdays">Alle Geburtstage</string>
     <string name="months">Monate</string>
+    <string name="settings">Einstellungen</string>
+    <string name="birthdays">Geburtstage im</string>
+    <string name="allBirthdays">Alle Geburtstage</string>
 </resources>

@@ -1,9 +1,14 @@
 package com.example.marcu.birthdays
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.NavUtils
+import android.support.v7.app.ActionBar
+import android.support.v7.widget.Toolbar
 import android.text.Editable
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -43,6 +48,19 @@ class SavePersonActivity : AppCompatActivity() {
         if (intent.extras != null){
             setTexts(intent)
             isIntent = true
+        }
+
+        initiateToolbar()
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun initiateToolbar(){
+        val actionBar = supportActionBar
+        actionBar!!.setDefaultDisplayHomeAsUpEnabled(true)
+        if (isIntent){
+            actionBar.title = getString(R.string.headline_edit_person)
+        } else {
+            actionBar.title = getString(R.string.headline_new_person)
         }
     }
 
@@ -111,9 +129,14 @@ class SavePersonActivity : AppCompatActivity() {
     }
 
     private fun goToBirthdays(){
-        val intent = Intent(this, StartActivity::class.java)
+        val intent = Intent(this, BirthdaysActivity::class.java)
         startActivity(intent)
     }
 
-
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId){
+            android.R.id.home -> NavUtils.navigateUpFromSameTask(this)
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
