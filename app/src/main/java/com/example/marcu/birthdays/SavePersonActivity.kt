@@ -5,8 +5,6 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.NavUtils
-import android.support.v7.app.ActionBar
-import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.view.MenuItem
 import android.view.View
@@ -118,8 +116,16 @@ class SavePersonActivity : AppCompatActivity() {
 
         fnameText.text = Editable.Factory.getInstance().newEditable(intent.getStringExtra("first name"))
         snameText.text = Editable.Factory.getInstance().newEditable(intent.getStringExtra("second name"))
-        dayText.text = Editable.Factory.getInstance().newEditable(birthday.dayOfMonth.toString())
-        monthText.text = Editable.Factory.getInstance().newEditable(birthday.monthValue.toString())
+        if (birthday.dayOfMonth.toString().length == 1){
+            dayText.text = Editable.Factory.getInstance().newEditable("0" + birthday.dayOfMonth.toString())
+        } else {
+            dayText.text = Editable.Factory.getInstance().newEditable(birthday.dayOfMonth.toString())
+        }
+        if (birthday.monthValue.toString().length == 1){
+            monthText.text = Editable.Factory.getInstance().newEditable("0" + birthday.monthValue.toString())
+        } else {
+            monthText.text = Editable.Factory.getInstance().newEditable(birthday.monthValue.toString())
+        }
         yearText.text = Editable.Factory.getInstance().newEditable(birthday.year.toString())
     }
 

@@ -1,12 +1,16 @@
 package com.example.marcu.birthdays
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.ContextCompat.startActivity
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -49,8 +53,8 @@ class BirthdaysActivity : AppCompatActivity() {
 
     private fun initiateToolbar(){
         toolbar = findViewById(R.id.toolbar)
-
         setSupportActionBar(toolbar)
+        toolbar.setTitleTextColor(Color.WHITE)
     }
 
     private fun initiateFab(){
@@ -179,6 +183,10 @@ class BirthdaysActivity : AppCompatActivity() {
 
             registerForContextMenu(this)
         }
+        val itemDecorator = DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL)
+        itemDecorator.setDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.abc_list_divider_material)!!)
+        birthdayView.addItemDecoration(itemDecorator)
+
     }
 
     private fun setToolBarTitle(month: Int){
