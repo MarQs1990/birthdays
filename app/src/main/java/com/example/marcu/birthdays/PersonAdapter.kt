@@ -8,11 +8,11 @@ import android.widget.TextView
 import android.view.ContextMenu
 import android.view.View.OnCreateContextMenuListener
 
-class PersonAdapter(private var mctx: Context, private val personList: List<Person>): RecyclerView.Adapter<PersonAdapter.PersonViewHolder>(){
+class PersonAdapter(private var context: Context, private val personList: List<Person>): RecyclerView.Adapter<PersonAdapter.PersonViewHolder>(){
 
     @SuppressLint("InflateParams")
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): PersonViewHolder {
-        val inflater: LayoutInflater = LayoutInflater.from(mctx)
+        val inflater: LayoutInflater = LayoutInflater.from(context)
         val view: View = inflater.inflate(R.layout.list_layout, null)
         return PersonViewHolder(view)
     }
@@ -30,13 +30,10 @@ class PersonAdapter(private var mctx: Context, private val personList: List<Pers
     }
 
     inner class PersonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), OnCreateContextMenuListener {
-        private val menuRemove = 1
-        private val menuEdit = 2
 
         override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
-            menu!!.setHeaderTitle("Wähle eine Option")
-            menu.add(this.adapterPosition, menuRemove, 0, "löschen")
-            menu.add(this.adapterPosition, menuEdit, 0, "bearbeiten")
+            menu!!.add(this.adapterPosition, MENU_EDIT, 0, "bearbeiten")
+            menu.add(this.adapterPosition, MENU_REMOVE, 0, "löschen")
         }
 
         var nameView = itemView.findViewById<TextView>(R.id.nameView)!!

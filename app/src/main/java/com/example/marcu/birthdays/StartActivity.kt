@@ -1,24 +1,25 @@
 package com.example.marcu.birthdays
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.design.widget.NavigationView
+import android.preference.PreferenceManager
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
-import android.view.MenuItem
 import android.widget.ExpandableListView
 import kotlinx.android.synthetic.main.activity_birthdays.*
-import kotlinx.android.synthetic.main.header.*
 
-class StartActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+
+class StartActivity : AppCompatActivity() {
 
     private lateinit var drawer: DrawerLayout
-    lateinit var expandableListView: ExpandableListView
-    lateinit var expandableListAdapter: ExpandableListAdapter
+    private lateinit var sidebarExpListView: ExpandableListView
+    private lateinit var sidebarListAdapter: ExpandableListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +35,8 @@ class StartActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         drawer = findViewById(R.id.drawer_layout)
 
-        val navigationView = findViewById<NavigationView>(R.id.nav_view)
-        navigationView.setNavigationItemSelectedListener(this)
+        //val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        //navigationView.setNavigationItemSelectedListener(this)
 
         val toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
 
@@ -43,14 +44,28 @@ class StartActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         toggle.syncState()
 
-        expandableListView = findViewById(R.id.navigation_menu)
+        initiateExpListView()
+    }
 
-        expandableListView.setGroupIndicator(null)
+    private fun setSharedPreferences(){
+        val prefs = applicationContext.getSharedPreferences("birthdays preferences", Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        
+        editor.putBoolean("first time today", true)
+        editor.putInt("alarm before birthday", 10) //TODO In Settings packen und da aufrufen
+
+    }
+
+    private fun initiateExpListView(){
+        sidebarExpListView = findViewById(R.id.navigation_menu)
+
+        sidebarExpListView.setGroupIndicator(null)
 
         setItems()
         setListener()
     }
 
+    /*
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         var month: Int = -1
         when(p0.itemId){
@@ -75,6 +90,7 @@ class StartActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         startActivity(intent)
         return true
     }
+    */
 
     override fun onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)){
@@ -115,13 +131,42 @@ class StartActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         hashMap[header[1]] = childMonths
         hashMap[header[2]] = childAllBirthdays
 
-        expandableListAdapter = ExpandableListAdapter(this, header, hashMap)
+        sidebarListAdapter = ExpandableListAdapter(this, header, hashMap)
 
-        expandableListView.setAdapter(expandableListAdapter)
+        sidebarExpListView.setAdapter(sidebarListAdapter)
     }
 
     private fun setListener(){
+
+        sidebarExpListView.setOnGroupClickListener { _, _, groupPosition, _ ->
+            val intent = Intent(this, BirthdaysActivity::class.java)
+            if (groupPosition == GROUP_ALLMONTH){
+                intent.putExtra("Month", 13)
+                startActivity(intent)
+
+                return@setOnGroupClickListener true
+            } else if(groupPosition == GROUP_NEXTTEN){
+                intent.putExtra("Month", 14)
+                startActivity(intent)
+
+                return@setOnGroupClickListener true
+            }
+
+            return@setOnGroupClickListener false
+        }
+
+        sidebarExpListView.setOnChildClickListener { _, _, groupPosition, childPosition, _ ->
+
+            val month = childPosition + 1
+            val intent = Intent(this, BirthdaysActivity::class.java)
+            if (groupPosition == GROUP_MONTHS){
+                intent.putExtra("Month", month)
+                startActivity(intent)
+
+                return@setOnChildClickListener true
+            }
+
+            return@setOnChildClickListener false
+        }
     }
-
-
 }

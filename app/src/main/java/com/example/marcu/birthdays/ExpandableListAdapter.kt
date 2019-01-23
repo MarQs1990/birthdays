@@ -9,15 +9,9 @@ import android.widget.*
 
 class ExpandableListAdapter(context: Context, listHeaderData: MutableList<String>, listChildData: MutableMap<String, MutableList<String>>): BaseExpandableListAdapter() {
 
-    private lateinit var _context: Context
-    private var header: List<String>
-    private var child: MutableMap<String, MutableList<String>>
-
-    init {
-        _context = context
-        header = listHeaderData
-        child = listChildData
-    }
+    private var _context: Context = context
+    private var header: List<String> = listHeaderData
+    private var child: MutableMap<String, MutableList<String>> = listChildData
 
     override fun getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?): View {
         val headerTitle = getGroup(groupPosition).toString()
@@ -32,18 +26,16 @@ class ExpandableListAdapter(context: Context, listHeaderData: MutableList<String
 
         val headerTextView = retView.findViewById<TextView>(R.id.header)
         headerTextView.text = headerTitle
-
+        //TODO Pfeile nur anzeigen, wenn children vorhanden
         if(getChildrenCount(groupPosition) > 0){
             if(isExpanded){
                 headerTextView.setTypeface(null, Typeface.BOLD)
-                headerTextView.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.arrow_up, 0)
+                headerTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_up, 0)
             } else {
                 headerTextView.setTypeface(null, Typeface.NORMAL)
-                headerTextView.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.arrow_down, 0)
+                headerTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down, 0)
             }
         }
-
-
         return retView
     }
 
@@ -52,11 +44,11 @@ class ExpandableListAdapter(context: Context, listHeaderData: MutableList<String
         val childText = getChild(groupPosition, childPosition).toString()
         val retView: View?
 
-        if (convertView == null){
+        retView = if (convertView == null){
             val inflater = _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            retView = inflater.inflate(R.layout.child, parent, false)
+            inflater.inflate(R.layout.child, parent, false)
         } else {
-            retView = convertView
+            convertView
         }
 
         val childTextView = retView!!.findViewById<TextView>(R.id.child)

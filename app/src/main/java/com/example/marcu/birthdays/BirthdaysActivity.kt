@@ -10,8 +10,6 @@ import android.view.*
 import kotlinx.android.synthetic.main.activity_birthdays.*
 
 class BirthdaysActivity : AppCompatActivity() {
-    private val menuRemove = 1
-    private val menuEdit = 2
 
     private lateinit var birthdayView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -87,8 +85,8 @@ class BirthdaysActivity : AppCompatActivity() {
         intent.putExtra("second name", person.secondName)
         intent.putExtra("birthday", person.birthdayString)
         when (item.itemId){
-            menuRemove -> dbHandler.deletePerson(person.firstName, person.secondName, person.birthdayString)
-            menuEdit -> startActivity(intent)
+            MENU_REMOVE -> dbHandler.deletePerson(person.firstName, person.secondName, person.birthdayString)
+            MENU_EDIT -> startActivity(intent)
         }
 
         viewAdapter.notifyDataSetChanged()
