@@ -12,3 +12,8 @@ const val GROUP_ALLMONTH: Int = 2
 //for set Birthday View to right Birthdays
 const val ALLBIRTHDAYS: Int = 13
 const val NEXTTEN: Int = 14
+
+//for Alarm
+const val CHANNEL_ID = "BIRTHDAYALARM"
+const val DAILY_REMINDER_REQUEST_CODE = 0
+

@@ -40,4 +40,6 @@
     <string name="settings">Einstellungen</string>
     <string name="birthdays">Geburtstage im</string>
     <string name="allBirthdays">Alle Geburtstage</string>
+    <string name="notification_title">Geburtstagserinnerung</string>
+    <string name="notification_context">Es stehen demnächst Geburtstage an</string>
 </resources>

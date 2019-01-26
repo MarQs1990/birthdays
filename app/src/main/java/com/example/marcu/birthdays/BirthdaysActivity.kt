@@ -1,11 +1,12 @@
 package com.example.marcu.birthdays
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
@@ -18,6 +19,7 @@ import android.view.*
 import android.widget.ExpandableListView
 
 import kotlinx.android.synthetic.main.activity_birthdays.*
+import android.os.Build
 
 class BirthdaysActivity : AppCompatActivity() {
 
@@ -34,9 +36,13 @@ class BirthdaysActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_birthdays)
+
+        createNotificationChannel()
         //TODO Beim Starten muss ein anderer Titel in der Toolbar stehen
         val intent = intent
         val month = intent.getIntExtra("Month", 14)
+
+        NotificationScheduler.setReminder(this, AlarmReceiver::class.java, 7, 0)
 
         initiateToolbar()
 
@@ -246,7 +252,7 @@ class BirthdaysActivity : AppCompatActivity() {
         viewAdapter.notifyDataSetChanged()
     }
 
-    fun closeDrawer(){
+    private fun closeDrawer(){
         drawer.closeDrawer(GravityCompat.START)
     }
 
@@ -258,4 +264,18 @@ class BirthdaysActivity : AppCompatActivity() {
         }
     }
 
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "alarm_channel"
+            val descriptionText = "Channel für Geburtstagserinnerung"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
 }

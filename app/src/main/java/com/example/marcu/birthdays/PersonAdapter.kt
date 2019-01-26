@@ -43,7 +43,5 @@ class PersonAdapter(private var context: Context, private val personList: List<P
         init {
             itemView.setOnCreateContextMenuListener(this)
         }
-
-
     }
 }
