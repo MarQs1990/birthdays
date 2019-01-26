@@ -14,6 +14,7 @@ import android.support.v4.app.TaskStackBuilder
 import java.util.Calendar
 
 import android.content.Context.ALARM_SERVICE
+import java.time.LocalDateTime
 
 
 object NotificationScheduler {
@@ -72,30 +73,35 @@ object NotificationScheduler {
     }
 
     fun showNotification(context: Context, cls: Class<*>, title: String, content: String) {
-        val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
-        val notificationIntent = Intent(context, cls)
-        notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        if (birthdayToday){
+            val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
-        val stackBuilder = TaskStackBuilder.create(context)
-        stackBuilder.addParentStack(cls)
-        stackBuilder.addNextIntent(notificationIntent)
+            val notificationIntent = Intent(context, cls)
+            notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
 
-        val pendingIntent =
-            stackBuilder.getPendingIntent(DAILY_REMINDER_REQUEST_CODE, PendingIntent.FLAG_UPDATE_CURRENT)
+            val stackBuilder = TaskStackBuilder.create(context)
+            stackBuilder.addParentStack(cls)
+            stackBuilder.addNextIntent(notificationIntent)
 
-        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+            val pendingIntent =
+                stackBuilder.getPendingIntent(DAILY_REMINDER_REQUEST_CODE, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val notification =
-            builder.setContentTitle(title)
-                .setContentText(content)
-                .setAutoCancel(true)
-                .setSound(alarmSound)
-                .setSmallIcon(R.drawable.notification_small)
-                .setContentIntent(pendingIntent).build()
+            val builder = NotificationCompat.Builder(context, CHANNEL_ID)
 
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(DAILY_REMINDER_REQUEST_CODE, notification)
+            val notification =
+                builder.setContentTitle(title)
+                    .setContentText(content)
+                    .setAutoCancel(true)
+                    .setSound(alarmSound)
+                    .setSmallIcon(R.drawable.notification_small)
+                    .setContentIntent(pendingIntent).build()
+
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.notify(DAILY_REMINDER_REQUEST_CODE, notification)
+        }
+
+
     }
 
 }

@@ -20,6 +20,7 @@ import android.widget.ExpandableListView
 
 import kotlinx.android.synthetic.main.activity_birthdays.*
 import android.os.Build
+import java.time.LocalDateTime
 
 class BirthdaysActivity : AppCompatActivity() {
 
@@ -41,6 +42,8 @@ class BirthdaysActivity : AppCompatActivity() {
         //TODO Beim Starten muss ein anderer Titel in der Toolbar stehen
         val intent = intent
         val month = intent.getIntExtra("Month", 14)
+
+        setBirthdaysToday()
 
         NotificationScheduler.setReminder(this, AlarmReceiver::class.java, 7, 0)
 
@@ -276,6 +279,19 @@ class BirthdaysActivity : AppCompatActivity() {
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun setBirthdaysToday(){
+
+        val dbHandler = BirthdaysDBHandler(this)
+
+        birthdays = dbHandler.findAllPeople(13)
+
+        val today = LocalDateTime.now()
+        for (person in birthdays){
+            birthdayToday = today.dayOfMonth == person.birthday.dayOfMonth
+                    && today.monthValue == person.birthday.monthValue
         }
     }
 }

@@ -16,4 +16,5 @@ const val NEXTTEN: Int = 14
 //for Alarm
 const val CHANNEL_ID = "BIRTHDAYALARM"
 const val DAILY_REMINDER_REQUEST_CODE = 0
+var birthdayToday = false
 

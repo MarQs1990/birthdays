@@ -26,12 +26,10 @@ class AlarmReceiver : BroadcastReceiver() {
         }
 
         Log.d(tag, "onReceive: ")
-
         //Trigger the notification
         //TODO Bedingung für das Zeigen der Notification implementieren
         NotificationScheduler.showNotification(
             context!!, BirthdaysActivity::class.java, "Geburtstagserinnerung", "Es stehen demnächst Geburtstage an"
         )
-
     }
 }
