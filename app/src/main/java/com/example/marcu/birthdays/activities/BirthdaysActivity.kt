@@ -46,6 +46,7 @@ class BirthdaysActivity : AppCompatActivity() {
         setContentView(R.layout.activity_birthdays)
 
         createNotificationChannel()
+
         //TODO Beim Starten muss ein anderer Titel in der Toolbar stehen
         val intent = intent
         val month = intent.getIntExtra("Month", 14)
@@ -266,7 +267,10 @@ class BirthdaysActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                gotToSettings()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -306,8 +310,8 @@ class BirthdaysActivity : AppCompatActivity() {
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "alarm_channel"
-            val descriptionText = "Channel für Geburtstagserinnerung"
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
                 description = descriptionText
@@ -330,5 +334,10 @@ class BirthdaysActivity : AppCompatActivity() {
             birthdayToday = today.dayOfMonth == person.birthday.dayOfMonth
                     && today.monthValue == person.birthday.monthValue
         }
+    }
+
+    private fun gotToSettings(){
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
     }
 }

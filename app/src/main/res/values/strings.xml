@@ -1,27 +1,24 @@
 <resources>
+    //core
     <string name="app_name">Birthdays</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_months">MonthsActivity</string>
     <string name="title_activity_start">StartActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="first_name">Vorname</string>
-    <string name="second_name">Nachname</string>
-    <string name="save">Speichern</string>
-    <string name="cancel">Abbrechen</string>
-    <string name="day">Tag</string>
-    <string name="month">Monat</string>
-    <string name="year">Jahr</string>
-    <string name="headline_new_person">Neuen Geburtstag hinzufügen</string>
-    <string name="headline_edit_person">Geburtstag bearbeiten</string>
-    <string name="avatar_description">Zeigt den Avatar des Benutzers</string>
-    <string name="user_name">Marcus Trepte</string>
-    <string name="user_mail">marcus.trepte90@web.de</string>
+    <string name="headline_settings">Einstellungen</string>
+
+    //birthdays activity
+    <string name="settings">Einstellungen</string>
+    <string name="birthdays">Geburtstage im</string>
+    <string name="allBirthdays">Alle Geburtstage</string>
+
+    //context menu
     <string name="delete_person">löschen</string>
     <string name="edit_person">bearbeiten</string>
+
+    //sidebar
     <string name="january">Januar</string>
     <string name="february">Februar</string>
     <string name="march">März</string>
@@ -37,12 +34,39 @@
     <string name="next_ten_birthdays">Nächste 10 Geburtstage</string>
     <string name="all_birthdays">Alle Geburtstage</string>
     <string name="months">Monate</string>
-    <string name="settings">Einstellungen</string>
-    <string name="birthdays">Geburtstage im</string>
-    <string name="allBirthdays">Alle Geburtstage</string>
-    <string name="notification_title">Geburtstagserinnerung</string>
-    <string name="notification_context">Es stehen demnächst Geburtstage an</string>
+    <string name="user_name">Marcus Trepte</string>
+    <string name="user_mail">marcus.trepte90@web.de</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="avatar_description">Zeigt den Avatar des Benutzers</string>
+
+    //save person activity
     <string name="saved_new_birthday">Neuer Geburtstagseintrag hinzugefügt</string>
     <string name="edited_birthday">Geburtstagseintrag aktualisiert</string>
     <string name="save_person_error">Namens- oder Datumsformat nicht eingehalten</string>
+    <string name="headline_new_person">Neuen Geburtstag hinzufügen</string>
+    <string name="headline_edit_person">Geburtstag bearbeiten</string>
+    <string name="first_name">Vorname</string>
+    <string name="second_name">Nachname</string>
+    <string name="save">Speichern</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="day">Tag</string>
+    <string name="month">Monat</string>
+    <string name="year">Jahr</string>
+
+    //notification
+    <string name="channel_name">alarm_channel</string>
+    <string name="channel_description">Channel für Geburtstagserinnerung</string>
+    <string name="notification_title">Geburtstagserinnerung</string>
+    <string name="notification_context">Es stehen demnächst Geburtstage an</string>
+
+
+    //settings activity
+    <string name="toolbar_settings">Einstellungen</string>
+    <string name="settings_textview_days_before">Tage vor Geburtstag erinnern</string>
+    <string name="settings_textview_time">Erinnerungsuhrzeit</string>
+    <string name="settings_switch_alarm">Erinnerungen am Geburtstag</string>
+    <string name="settings_switch_reminder">Erinnerung vor Geburtstag</string>
+    <string name="settings_button_systemsettings">Systemeinstellungen aufrufen</string>
+    <string name="settings_headline_remind">Erinnerungen</string>
 </resources>

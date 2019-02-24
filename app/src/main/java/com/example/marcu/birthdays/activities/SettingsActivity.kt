@@ -14,9 +14,14 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val actionbar = supportActionBar
-        actionbar!!.title = ""
+        initiateToolbar()
+    }
 
+    @SuppressLint("RestrictedApi")
+    private fun initiateToolbar(){
+        val actionBar = supportActionBar
+        actionBar!!.setDefaultDisplayHomeAsUpEnabled(true)
+        actionBar.title = getString(R.string.toolbar_settings)
     }
 
     @SuppressLint("CommitPrefEdits")
