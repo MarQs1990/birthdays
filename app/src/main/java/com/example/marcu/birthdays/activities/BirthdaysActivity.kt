@@ -53,7 +53,7 @@ class BirthdaysActivity : AppCompatActivity() {
 
         setBirthdaysToday()
 
-        NotificationScheduler.setReminder(this, AlarmReceiver::class.java, 7, 0)
+        NotificationScheduler.setAlarm(this)
 
         initiateToolbar()
 
@@ -340,4 +340,6 @@ class BirthdaysActivity : AppCompatActivity() {
         val intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)
     }
+
+
 }

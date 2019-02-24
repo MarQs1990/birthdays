@@ -22,59 +22,34 @@ import com.example.marcu.birthdays.core.birthdayToday
 
 object NotificationScheduler {
 
-    fun setReminder(context: Context, cls: Class<*>, hour: Int = 7, min: Int = 0) {
-        val calendar = Calendar.getInstance()
+    private var alarmMgr: AlarmManager? = null
+    private lateinit var alarmIntent: PendingIntent
 
-        val setcalendar = Calendar.getInstance()
-        setcalendar.set(Calendar.HOUR_OF_DAY, hour)
-        setcalendar.set(Calendar.MINUTE, min)
-        setcalendar.set(Calendar.SECOND, 0)
+    fun setAlarm(context: Context?){
+        if (context != null) {
+            alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        // cancel already scheduled reminders
-        cancelReminder(context, cls)
+            alarmIntent = Intent(context, AlarmReceiver::class.java).let { intent ->
+                PendingIntent.getBroadcast(context, 0, intent, 0)
+            }
 
-        if (setcalendar.before(calendar)) setcalendar.add(Calendar.DATE, 1)
+            val calendar = Calendar.getInstance().apply {
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY, 7)
+                set(Calendar.MINUTE, 0)
+            }
 
-        // Enable a receiver
-
-        val receiver = ComponentName(context, cls)
-        val pm = context.packageManager
-
-        pm.setComponentEnabledSetting(
-            receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
-        )
-
-
-        val intent1 = Intent(context, cls)
-        val pendingIntent =
-            PendingIntent.getBroadcast(context,
-                DAILY_REMINDER_REQUEST_CODE, intent1, PendingIntent.FLAG_UPDATE_CURRENT)
-        val am = context.getSystemService(ALARM_SERVICE) as AlarmManager
-        am.setInexactRepeating(
-            AlarmManager.RTC_WAKEUP,
-            setcalendar.timeInMillis,
-            AlarmManager.INTERVAL_DAY,
-            pendingIntent
-        )
+            alarmMgr?.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                AlarmManager.INTERVAL_DAY,
+                alarmIntent
+            )
+        }
     }
 
-    private fun cancelReminder(context: Context, cls: Class<*>) {
-        // Disable a receiver
-
-        val receiver = ComponentName(context, cls)
-        val pm = context.packageManager
-
-        pm.setComponentEnabledSetting(
-            receiver, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
-        )
-
-        val intent1 = Intent(context, cls)
-        val pendingIntent =
-            PendingIntent.getBroadcast(context,
-                DAILY_REMINDER_REQUEST_CODE, intent1, PendingIntent.FLAG_UPDATE_CURRENT)
-        val am = context.getSystemService(ALARM_SERVICE) as AlarmManager
-        am.cancel(pendingIntent)
-        pendingIntent.cancel()
+    fun cancelAlarm(){
+        alarmMgr?.cancel(alarmIntent)
     }
 
     fun showNotification(context: Context, cls: Class<*>, title: String, content: String) {

@@ -16,9 +16,7 @@ class AlarmReceiver : BroadcastReceiver() {
             if (intent.action!!.equals(Intent.ACTION_BOOT_COMPLETED, ignoreCase = true)) {
                 // Set the alarm here.
                 Log.d(tag, "onReceive: BOOT_COMPLETED")
-                NotificationScheduler.setReminder(
-                    context, AlarmReceiver::class.java, 7, 0
-                )
+                NotificationScheduler.setAlarm(context)
                 return
             }
         }
