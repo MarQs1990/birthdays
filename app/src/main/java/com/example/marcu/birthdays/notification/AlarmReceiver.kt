@@ -1,9 +1,10 @@
-package com.example.marcu.birthdays
+package com.example.marcu.birthdays.notification
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.example.marcu.birthdays.activities.BirthdaysActivity
 
 class AlarmReceiver : BroadcastReceiver() {
 
@@ -16,10 +17,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 // Set the alarm here.
                 Log.d(tag, "onReceive: BOOT_COMPLETED")
                 NotificationScheduler.setReminder(
-                    context,
-                    AlarmReceiver::class.java,
-                    7,
-                    0
+                    context, AlarmReceiver::class.java, 7, 0
                 )
                 return
             }
@@ -27,9 +25,11 @@ class AlarmReceiver : BroadcastReceiver() {
 
         Log.d(tag, "onReceive: ")
         //Trigger the notification
-        //TODO Bedingung für das Zeigen der Notification implementieren
         NotificationScheduler.showNotification(
-            context!!, BirthdaysActivity::class.java, "Geburtstagserinnerung", "Es stehen demnächst Geburtstage an"
+            context!!,
+            BirthdaysActivity::class.java,
+            "Geburtstagserinnerung",
+            "Es stehen demnächst Geburtstage an"
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.example.marcu.birthdays
+package com.example.marcu.birthdays.gui
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,6 +7,10 @@ import android.view.*
 import android.widget.TextView
 import android.view.ContextMenu
 import android.view.View.OnCreateContextMenuListener
+import com.example.marcu.birthdays.Person
+import com.example.marcu.birthdays.R
+import com.example.marcu.birthdays.core.MENU_EDIT
+import com.example.marcu.birthdays.core.MENU_REMOVE
 
 class PersonAdapter(private var context: Context, private val personList: List<Person>): RecyclerView.Adapter<PersonAdapter.PersonViewHolder>(){
 

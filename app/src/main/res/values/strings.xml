@@ -42,4 +42,7 @@
     <string name="allBirthdays">Alle Geburtstage</string>
     <string name="notification_title">Geburtstagserinnerung</string>
     <string name="notification_context">Es stehen demnächst Geburtstage an</string>
+    <string name="saved_new_birthday">Neuer Geburtstagseintrag hinzugefügt</string>
+    <string name="edited_birthday">Geburtstagseintrag aktualisiert</string>
+    <string name="save_person_error">Namens- oder Datumsformat nicht eingehalten</string>
 </resources>

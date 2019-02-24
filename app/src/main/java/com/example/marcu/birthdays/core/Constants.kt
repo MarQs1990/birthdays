@@ -1,4 +1,4 @@
-package com.example.marcu.birthdays
+package com.example.marcu.birthdays.core
 
 //for Context Menu in Birthdays
 const val MENU_REMOVE: Int = 1

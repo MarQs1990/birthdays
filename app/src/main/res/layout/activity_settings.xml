@@ -22,7 +22,7 @@
         <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".SettingsActivity">
+                tools:context=".activities.SettingsActivity">
 
             <TextView
                     android:text="Wie viele Tage möchtest du vor dem Geburtstag erinnert werden?"

@@ -1,15 +1,19 @@
-package com.example.marcu.birthdays
+package com.example.marcu.birthdays.core
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
+import com.example.marcu.birthdays.Person
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class BirthdaysDBHandler(context: Context) :
-        SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+        SQLiteOpenHelper(context,
+            DATABASE_NAME, null,
+            DATABASE_VERSION
+        ) {
 
     override fun onCreate(db: SQLiteDatabase) {
         val createPeopleTable = ("CREATE TABLE " + TABLE_PEOPLE + "("
@@ -112,9 +116,21 @@ class BirthdaysDBHandler(context: Context) :
         val cursor = db.rawQuery(query, null)
 
         if (cursor.moveToFirst()){
-            people.add(Person(cursor.getString(1), cursor.getString(2), cursor.getString(3)))
+            people.add(
+                Person(
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3)
+                )
+            )
             while(cursor.moveToNext()){
-                people.add(Person(cursor.getString(1), cursor.getString(2), cursor.getString(3)))
+                people.add(
+                    Person(
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3)
+                    )
+                )
             }
         }
         cursor.close()
@@ -191,6 +207,7 @@ class BirthdaysDBHandler(context: Context) :
         return next10People
     }
 
+    //Bubble Sort Algorithm to sort the birthdays by month and day
     private fun bubbleSortMonth(allPeople: MutableList<Person>): MutableList<Person>{
         for (pass in 0 until(allPeople.size - 1)){
             for (currentPosition in 0 until (allPeople.size - pass - 1)){

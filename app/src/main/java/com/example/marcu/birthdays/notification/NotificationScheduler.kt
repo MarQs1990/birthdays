@@ -1,4 +1,4 @@
-package com.example.marcu.birthdays
+package com.example.marcu.birthdays.notification
 
 import android.app.AlarmManager
 import android.app.NotificationManager
@@ -14,7 +14,10 @@ import android.support.v4.app.TaskStackBuilder
 import java.util.Calendar
 
 import android.content.Context.ALARM_SERVICE
-import java.time.LocalDateTime
+import com.example.marcu.birthdays.core.CHANNEL_ID
+import com.example.marcu.birthdays.core.DAILY_REMINDER_REQUEST_CODE
+import com.example.marcu.birthdays.R
+import com.example.marcu.birthdays.core.birthdayToday
 
 
 object NotificationScheduler {
@@ -44,7 +47,8 @@ object NotificationScheduler {
 
         val intent1 = Intent(context, cls)
         val pendingIntent =
-            PendingIntent.getBroadcast(context, DAILY_REMINDER_REQUEST_CODE, intent1, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(context,
+                DAILY_REMINDER_REQUEST_CODE, intent1, PendingIntent.FLAG_UPDATE_CURRENT)
         val am = context.getSystemService(ALARM_SERVICE) as AlarmManager
         am.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
@@ -66,7 +70,8 @@ object NotificationScheduler {
 
         val intent1 = Intent(context, cls)
         val pendingIntent =
-            PendingIntent.getBroadcast(context, DAILY_REMINDER_REQUEST_CODE, intent1, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(context,
+                DAILY_REMINDER_REQUEST_CODE, intent1, PendingIntent.FLAG_UPDATE_CURRENT)
         val am = context.getSystemService(ALARM_SERVICE) as AlarmManager
         am.cancel(pendingIntent)
         pendingIntent.cancel()

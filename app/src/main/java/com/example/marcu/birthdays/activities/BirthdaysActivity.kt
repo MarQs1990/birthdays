@@ -1,5 +1,6 @@
-package com.example.marcu.birthdays
+package com.example.marcu.birthdays.activities
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -20,6 +21,12 @@ import android.widget.ExpandableListView
 
 import kotlinx.android.synthetic.main.activity_birthdays.*
 import android.os.Build
+import com.example.marcu.birthdays.*
+import com.example.marcu.birthdays.core.*
+import com.example.marcu.birthdays.gui.ExpandableListAdapter
+import com.example.marcu.birthdays.gui.PersonAdapter
+import com.example.marcu.birthdays.notification.AlarmReceiver
+import com.example.marcu.birthdays.notification.NotificationScheduler
 import java.time.LocalDateTime
 
 class BirthdaysActivity : AppCompatActivity() {
@@ -76,7 +83,10 @@ class BirthdaysActivity : AppCompatActivity() {
     private fun initiateSidebar(){
         drawer = findViewById(R.id.drawer_layout)
 
-        val toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        val toggle = ActionBarDrawerToggle(this, drawer, toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
 
         drawer.addDrawerListener(toggle)
 
@@ -166,6 +176,7 @@ class BirthdaysActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("PrivateResource")
     private fun setBirthdayView(month: Int){
 
         val dbHandler = BirthdaysDBHandler(this)
@@ -193,7 +204,9 @@ class BirthdaysActivity : AppCompatActivity() {
             registerForContextMenu(this)
         }
         val itemDecorator = DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL)
-        itemDecorator.setDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.abc_list_divider_material)!!)
+        itemDecorator.setDrawable(ContextCompat.getDrawable(applicationContext,
+            R.drawable.abc_list_divider_material
+        )!!)
         birthdayView.addItemDecoration(itemDecorator)
 
     }
@@ -201,18 +214,42 @@ class BirthdaysActivity : AppCompatActivity() {
     private fun setToolBarTitle(month: Int){
 
         when (month){
-            1 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(R.string.january)
-            2 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(R.string.february)
-            3 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(R.string.march)
-            4 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(R.string.april)
-            5 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(R.string.may)
-            6 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(R.string.june)
-            7 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(R.string.july)
-            8 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(R.string.august)
-            9 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(R.string.september)
-            10 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(R.string.october)
-            11 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(R.string.november)
-            12 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(R.string.december)
+            1 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(
+                R.string.january
+            )
+            2 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(
+                R.string.february
+            )
+            3 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(
+                R.string.march
+            )
+            4 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(
+                R.string.april
+            )
+            5 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(
+                R.string.may
+            )
+            6 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(
+                R.string.june
+            )
+            7 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(
+                R.string.july
+            )
+            8 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(
+                R.string.august
+            )
+            9 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(
+                R.string.september
+            )
+            10 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(
+                R.string.october
+            )
+            11 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(
+                R.string.november
+            )
+            12 -> toolbar.title = resources.getString(R.string.birthdays) + " " + resources.getString(
+                R.string.december
+            )
             13 -> toolbar.title = resources.getString(R.string.all_birthdays)
             14 -> toolbar.title = resources.getString(R.string.next_ten_birthdays)
         }

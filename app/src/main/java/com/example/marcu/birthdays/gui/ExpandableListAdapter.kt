@@ -1,4 +1,4 @@
-package com.example.marcu.birthdays
+package com.example.marcu.birthdays.gui
 
 import android.content.Context
 import android.graphics.Typeface
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.example.marcu.birthdays.R
 
 class ExpandableListAdapter(context: Context, listHeaderData: MutableList<String>, listChildData: MutableMap<String, MutableList<String>>): BaseExpandableListAdapter() {
 
@@ -30,10 +31,12 @@ class ExpandableListAdapter(context: Context, listHeaderData: MutableList<String
         if(getChildrenCount(groupPosition) > 0){
             if(isExpanded){
                 headerTextView.setTypeface(null, Typeface.BOLD)
-                headerTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_up, 0)
+                headerTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+                    R.drawable.arrow_up, 0)
             } else {
                 headerTextView.setTypeface(null, Typeface.NORMAL)
-                headerTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down, 0)
+                headerTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+                    R.drawable.arrow_down, 0)
             }
         }
         return retView
