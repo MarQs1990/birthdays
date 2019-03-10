@@ -17,44 +17,62 @@ import android.content.Context.ALARM_SERVICE
 import com.example.marcu.birthdays.core.CHANNEL_ID
 import com.example.marcu.birthdays.core.DAILY_REMINDER_REQUEST_CODE
 import com.example.marcu.birthdays.R
-import com.example.marcu.birthdays.core.birthdayToday
+import com.example.marcu.birthdays.core.BirthdaysDBHandler
+import java.time.LocalDateTime
 
 
 object NotificationScheduler {
 
-    private var alarmMgr: AlarmManager? = null
-    private lateinit var alarmIntent: PendingIntent
+    fun setAlarm(context: Context, cls: Class<*>, hour: Int, min: Int) {
+        val calendar = Calendar.getInstance()
+        val setCalendar = Calendar.getInstance()
+        setCalendar.set(Calendar.HOUR_OF_DAY, hour)
+        setCalendar.set(Calendar.MINUTE, min)
+        setCalendar.set(Calendar.SECOND, 0)
 
-    fun setAlarm(context: Context?){
-        if (context != null) {
-            alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        cancelAlarm(context, cls)
 
-            alarmIntent = Intent(context, AlarmReceiver::class.java).let { intent ->
-                PendingIntent.getBroadcast(context, 0, intent, 0)
-            }
-
-            val calendar = Calendar.getInstance().apply {
-                timeInMillis = System.currentTimeMillis()
-                set(Calendar.HOUR_OF_DAY, 7)
-                set(Calendar.MINUTE, 0)
-            }
-
-            alarmMgr?.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                AlarmManager.INTERVAL_DAY,
-                alarmIntent
-            )
+        if (setCalendar.before(calendar)) {
+            setCalendar.add(Calendar.DATE, 1)
         }
+
+        val receiver = ComponentName(context, cls)
+        val pm = context.packageManager
+        pm.setComponentEnabledSetting(
+            receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
+        )
+
+        val intent1 = Intent(context, cls)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context, DAILY_REMINDER_REQUEST_CODE, intent1, PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val am = context.getSystemService(ALARM_SERVICE) as AlarmManager
+        am.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP, setCalendar.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent
+        )
     }
 
-    fun cancelAlarm(){
-        alarmMgr?.cancel(alarmIntent)
+    fun cancelAlarm(context: Context, cls: Class<*>){
+        val receiver = ComponentName(context, cls)
+        val pm = context.packageManager
+        pm.setComponentEnabledSetting(receiver,
+            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+            PackageManager.DONT_KILL_APP)
+
+        val intent1 = Intent(context, cls)
+        val pendingIntent = PendingIntent.getBroadcast(context,
+            DAILY_REMINDER_REQUEST_CODE, intent1, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val am = context.getSystemService(ALARM_SERVICE) as AlarmManager
+        am.cancel(pendingIntent)
+        pendingIntent.cancel()
     }
 
     fun showNotification(context: Context, cls: Class<*>, title: String, content: String) {
 
-        if (birthdayToday){
+        //TODO birthdayToday should be a function, that checks if there is a birthday today
+        if (birthdaysToday(context)){
             val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
             val notificationIntent = Intent(context, cls)
@@ -80,8 +98,23 @@ object NotificationScheduler {
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.notify(DAILY_REMINDER_REQUEST_CODE, notification)
         }
+    }
 
+    private fun birthdaysToday(context: Context): Boolean{
 
+        val dbHandler = BirthdaysDBHandler(context)
+
+        val birthdays = dbHandler.findAllPeople(13)
+
+        var isBirthdayToday = false
+
+        val today = LocalDateTime.now()
+        for (person in birthdays){
+            isBirthdayToday = today.dayOfMonth == person.birthday.dayOfMonth
+                    && today.monthValue == person.birthday.monthValue
+        }
+
+        return isBirthdayToday
     }
 
 }

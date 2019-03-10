@@ -58,7 +58,7 @@
     <string name="channel_name">alarm_channel</string>
     <string name="channel_description">Channel für Geburtstagserinnerung</string>
     <string name="notification_title">Geburtstagserinnerung</string>
-    <string name="notification_context">Es stehen demnächst Geburtstage an</string>
+    <string name="notification_content">Es stehen demnächst Geburtstage an</string>
 
 
     //settings activity

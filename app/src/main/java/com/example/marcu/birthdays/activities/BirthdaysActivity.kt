@@ -25,9 +25,7 @@ import com.example.marcu.birthdays.*
 import com.example.marcu.birthdays.core.*
 import com.example.marcu.birthdays.gui.ExpandableListAdapter
 import com.example.marcu.birthdays.gui.PersonAdapter
-import com.example.marcu.birthdays.notification.AlarmReceiver
 import com.example.marcu.birthdays.notification.NotificationScheduler
-import java.time.LocalDateTime
 
 class BirthdaysActivity : AppCompatActivity() {
 
@@ -51,9 +49,7 @@ class BirthdaysActivity : AppCompatActivity() {
         val intent = intent
         val month = intent.getIntExtra("Month", 14)
 
-        setBirthdaysToday()
-
-        NotificationScheduler.setAlarm(this)
+        NotificationScheduler.setAlarm(this, BirthdaysActivity::class.java, 7, 0)
 
         initiateToolbar()
 
@@ -320,19 +316,6 @@ class BirthdaysActivity : AppCompatActivity() {
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
-        }
-    }
-
-    private fun setBirthdaysToday(){
-
-        val dbHandler = BirthdaysDBHandler(this)
-
-        birthdays = dbHandler.findAllPeople(13)
-
-        val today = LocalDateTime.now()
-        for (person in birthdays){
-            birthdayToday = today.dayOfMonth == person.birthday.dayOfMonth
-                    && today.monthValue == person.birthday.monthValue
         }
     }
 

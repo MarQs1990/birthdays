@@ -1,5 +1,7 @@
 package com.example.marcu.birthdays.core
 
+import java.time.LocalDateTime
+
 //for Context Menu in Birthdays
 const val MENU_REMOVE: Int = 1
 const val MENU_EDIT: Int = 2
@@ -16,5 +18,9 @@ const val NEXTTEN: Int = 14
 //for Alarm
 const val CHANNEL_ID = "BIRTHDAYALARM"
 const val DAILY_REMINDER_REQUEST_CODE = 0
-var birthdayToday = false
+
+
+
+
+
 
