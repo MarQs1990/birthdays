@@ -171,10 +171,14 @@ class SavePersonActivity : AppCompatActivity() {
     it's not valid, if the entry is empty or not just letters
      */
     private fun checkNameValidity(fname: String, sname:String): Boolean{
-        val nameRegex = Regex("A-Za-z")
+        val nameRegex = Regex("^[A-Za-z]+$")
 
-        Log.d("check name validity", "name is not completely of letters")
-        return nameRegex.matches(fname) && nameRegex.matches(sname)
+        return if (nameRegex.matches(fname) && nameRegex.matches(sname)){
+            true
+        } else {
+            Log.d("check name validity", "name is not completely of letters")
+            false
+        }
     }
 
     /*
