@@ -13,7 +13,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.example.marcu.birthdays.core.BirthdaysDBHandler
-import com.example.marcu.birthdays.Person
+import com.example.marcu.birthdays.core.Person
 import com.example.marcu.birthdays.R
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -67,6 +67,7 @@ class SavePersonActivity : AppCompatActivity() {
         }
     }
 
+    //TODO How does it work without the parameter view?
     fun onClickButton(view: View){
         if (isIntent){
             saveEditPerson()

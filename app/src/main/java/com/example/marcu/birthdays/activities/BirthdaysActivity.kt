@@ -45,7 +45,6 @@ class BirthdaysActivity : AppCompatActivity() {
 
         createNotificationChannel()
 
-        //TODO Beim Starten muss ein anderer Titel in der Toolbar stehen
         val intent = intent
         val month = intent.getIntExtra("Month", 14)
 
@@ -67,6 +66,7 @@ class BirthdaysActivity : AppCompatActivity() {
     private fun initiateToolbar(){
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        supportActionBar?.title = getString(R.string.next_ten_birthdays)
         toolbar.setTitleTextColor(Color.WHITE)
     }
 
@@ -195,7 +195,6 @@ class BirthdaysActivity : AppCompatActivity() {
             // use a linear layout manager
             layoutManager = viewManager
 
-            // specify an viewAdapter (see also next example)
             adapter = viewAdapter
 
             registerForContextMenu(this)
@@ -264,7 +263,7 @@ class BirthdaysActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> {
-                gotToSettings()
+                goToSettings()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -319,7 +318,7 @@ class BirthdaysActivity : AppCompatActivity() {
         }
     }
 
-    private fun gotToSettings(){
+    private fun goToSettings(){
         val intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)
     }

@@ -31,7 +31,7 @@
     <string name="october">Oktober</string>
     <string name="november">November</string>
     <string name="december">Dezember</string>
-    <string name="next_ten_birthdays">Nächste 10 Geburtstage</string>
+    <string name="next_ten_birthdays">Anstehende Geburtstage</string>
     <string name="all_birthdays">Alle Geburtstage</string>
     <string name="months">Monate</string>
     <string name="user_name">Marcus Trepte</string>
@@ -44,7 +44,7 @@
     <string name="saved_new_birthday">Neuer Geburtstagseintrag hinzugefügt</string>
     <string name="edited_birthday">Geburtstagseintrag aktualisiert</string>
     <string name="save_person_error">Namens- oder Datumsformat nicht eingehalten</string>
-    <string name="headline_new_person">Neuen Geburtstag hinzufügen</string>
+    <string name="headline_new_person">Geburtstag hinzufügen</string>
     <string name="headline_edit_person">Geburtstag bearbeiten</string>
     <string name="first_name">Vorname</string>
     <string name="second_name">Nachname</string>
@@ -69,4 +69,5 @@
     <string name="settings_switch_reminder">Erinnerung vor Geburtstag</string>
     <string name="settings_button_systemsettings">Systemeinstellungen aufrufen</string>
     <string name="settings_headline_remind">Erinnerungen</string>
+    <string name="time_picker_headline">Uhrzeit für Alarm wählen</string>
 </resources>

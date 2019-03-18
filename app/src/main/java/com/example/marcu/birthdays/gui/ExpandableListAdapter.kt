@@ -27,7 +27,6 @@ class ExpandableListAdapter(context: Context, listHeaderData: MutableList<String
 
         val headerTextView = retView.findViewById<TextView>(R.id.header)
         headerTextView.text = headerTitle
-        //TODO Pfeile nur anzeigen, wenn children vorhanden
         if(getChildrenCount(groupPosition) > 0){
             if(isExpanded){
                 headerTextView.setTypeface(null, Typeface.BOLD)
@@ -38,6 +37,9 @@ class ExpandableListAdapter(context: Context, listHeaderData: MutableList<String
                 headerTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0,
                     R.drawable.arrow_down, 0)
             }
+        } else {
+            //Setzt ein leeres Drawable, wenn keine Children vorhanden sind, damit kein Pfeil angezeigt wird
+            headerTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
         }
         return retView
     }

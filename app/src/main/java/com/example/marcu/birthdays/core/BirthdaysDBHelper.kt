@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
-import com.example.marcu.birthdays.Person
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -118,17 +117,13 @@ class BirthdaysDBHandler(context: Context) :
         if (cursor.moveToFirst()){
             people.add(
                 Person(
-                    cursor.getString(1),
-                    cursor.getString(2),
-                    cursor.getString(3)
+                    cursor.getString(1), cursor.getString(2), cursor.getString(3)
                 )
             )
             while(cursor.moveToNext()){
                 people.add(
                     Person(
-                        cursor.getString(1),
-                        cursor.getString(2),
-                        cursor.getString(3)
+                        cursor.getString(1), cursor.getString(2), cursor.getString(3)
                     )
                 )
             }

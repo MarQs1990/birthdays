@@ -7,7 +7,7 @@ import android.view.*
 import android.widget.TextView
 import android.view.ContextMenu
 import android.view.View.OnCreateContextMenuListener
-import com.example.marcu.birthdays.Person
+import com.example.marcu.birthdays.core.Person
 import com.example.marcu.birthdays.R
 import com.example.marcu.birthdays.core.MENU_EDIT
 import com.example.marcu.birthdays.core.MENU_REMOVE

@@ -1,4 +1,4 @@
-package com.example.marcu.birthdays
+package com.example.marcu.birthdays.core
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -41,6 +41,6 @@ class Person(fName: String, sName: String, birthdayStr:String){
             Integer.toString(currentYear - birthdayYear)
         }
 
-        return age
+        return "wird $age Jahre alt"
     }
 }
