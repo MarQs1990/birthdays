@@ -69,8 +69,9 @@
                 android:gravity="bottom"
                 android:orientation="vertical"
                 android:padding="16dp"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark" android:id="@+id/linearLayout"
-                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/linearLayout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/navigation_menu">
 

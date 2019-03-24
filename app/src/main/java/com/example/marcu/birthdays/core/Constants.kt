@@ -18,6 +18,7 @@ const val CHANNEL_ID = "BIRTHDAYALARM"
 const val DAILY_REMINDER_REQUEST_CODE = 0
 var hourReminder = 0
 var minuteReminder = 0
+var daysReminder = 0
 
 
 

@@ -13,18 +13,18 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textStyle="bold"
-            android:paddingLeft="10dp"/>
+            android:paddingStart="10dp"/>
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ageView"
             android:layout_weight="1"
-            android:paddingLeft="10dp"/>
+            android:paddingStart="10dp"/>
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/birthdayView"
             android:layout_weight="1"
-            android:paddingLeft="10dp"/>
+            android:paddingStart="10dp"/>
 
 </LinearLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+    <NumberPicker
+            android:id="@+id/hourNumberPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textViewStunden"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="20dp"
+            app:layout_constraintEnd_toStartOf="@+id/minuteNumberPicker" android:layout_marginEnd="5dp"
+            android:layout_marginTop="15dp" app:layout_constraintTop_toBottomOf="@+id/textViewStunden"/>
+    <NumberPicker
+            android:id="@+id/minuteNumberPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/textViewMinuten"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="20dp" app:layout_constraintStart_toEndOf="@+id/hourNumberPicker"
+            android:layout_marginStart="5dp" android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/textViewMinuten"/>
+    <TextView
+            android:text="Stunde"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewStunden"
+            android:layout_alignParentStart="true"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="25dp" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="20dp" android:layout_marginBottom="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/hourNumberPicker"
+            app:layout_constraintEnd_toStartOf="@+id/textViewMinuten" android:layout_marginEnd="13dp"/>
+    <TextView
+            android:text="Minute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewMinuten"
+            android:layout_alignParentEnd="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="28dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp" app:layout_constraintBottom_toTopOf="@+id/minuteNumberPicker"
+            app:layout_constraintStart_toEndOf="@+id/textViewStunden" android:layout_marginStart="13dp"/>
+</android.support.constraint.ConstraintLayout>

@@ -67,6 +67,7 @@ class BirthdaysActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.next_ten_birthdays)
+        toolbar.setBackgroundColor(getColor(R.color.colorPrimary))
         toolbar.setTitleTextColor(Color.WHITE)
     }
 

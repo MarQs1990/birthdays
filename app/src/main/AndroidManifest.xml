@@ -8,30 +8,27 @@
 
 
     <application
+            android:theme="@style/AppTheme"
             android:allowBackup="true"
             android:fullBackupContent="@xml/backup_descriptor"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.SettingsActivity">
-        </activity>
+        <activity android:name=".activities.SettingsActivity"
+                  android:parentActivityName=".activities.BirthdaysActivity"/>
         <activity
                 android:name=".activities.BirthdaysActivity"
-                android:label="@string/app_name"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
                 android:name=".activities.SavePersonActivity"
-                android:parentActivityName=".activities.BirthdaysActivity">
-        </activity>
+                android:parentActivityName=".activities.BirthdaysActivity"/>
         <!-- Register the Alarm Receiver -->
         <receiver android:name=".notification.AlarmReceiver"
                   android:enabled="false">
