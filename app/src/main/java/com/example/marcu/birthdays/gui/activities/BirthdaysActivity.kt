@@ -17,7 +17,6 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ExpandableListView
@@ -27,11 +26,10 @@ import com.example.marcu.birthdays.birthdays.Birthday
 import com.example.marcu.birthdays.birthdays.BirthdaysDBHandler
 import com.example.marcu.birthdays.birthdays.MonthsBirthdayView
 import com.example.marcu.birthdays.core.*
-import com.example.marcu.birthdays.gui.sidebar.ExpandableListAdapter
-import com.example.marcu.birthdays.gui.birthdayview.OnBirthdayClickListener
-import com.example.marcu.birthdays.gui.birthdayview.BirthdayAdapter
-import com.example.marcu.birthdays.gui.birthdayview.SwipeToDeleteBirthdayCallback
 import com.example.marcu.birthdays.core.notification.NotificationScheduler
+import com.example.marcu.birthdays.gui.birthdayview.BirthdayAdapter
+import com.example.marcu.birthdays.gui.birthdayview.OnBirthdayClickListener
+import com.example.marcu.birthdays.gui.sidebar.ExpandableListAdapter
 import kotlinx.android.synthetic.main.activity_birthdays.*
 
 class BirthdaysActivity : AppCompatActivity(),
@@ -217,9 +215,6 @@ class BirthdaysActivity : AppCompatActivity(),
         )
 
         birthdayView.addItemDecoration(itemDecorator)
-
-        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteBirthdayCallback(birthdayViewAdapter, this))
-        itemTouchHelper.attachToRecyclerView(birthdayView)
     }
 
     private fun setToolBarTitle(month: Int) {
