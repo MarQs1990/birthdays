@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.Toast
 import com.example.marcu.birthdays.R
 import com.example.marcu.birthdays.birthdays.Birthday
+import com.example.marcu.birthdays.exceptions.IllegalDateException
+import com.example.marcu.birthdays.exceptions.IllegalNameException
 import com.example.marcu.birthdays.gui.birthdayview.BirthdayAdapter
 import kotlinx.android.synthetic.main.activity_new_person.view.*
 
@@ -20,15 +22,21 @@ class SaveEditBirthdayDialog {
     private var birthdayDay = ""
     private var birthdayMonth = ""
     private var birthdayYear = ""
+    private var isNewBirthday = true
+    private lateinit var oldBirthday: Birthday
 
+    //Constructor for a new birthday
     constructor(_context: Context, _birthdayAdapter: BirthdayAdapter){
         context = _context
         birthdayAdapter = _birthdayAdapter
     }
 
+    //Constructor for editing a birthday
     constructor(_context: Context, _birthdayAdapter: BirthdayAdapter, _birthday: Birthday){
+        isNewBirthday = false
         context = _context
         birthdayAdapter = _birthdayAdapter
+        oldBirthday = _birthday
         fname = _birthday.firstName
         sname = _birthday.secondName
         birthdayDay = _birthday.birthday.dayOfMonth.toString()
@@ -57,11 +65,14 @@ class SaveEditBirthdayDialog {
         saveBirthdayView.savePersonButton.setOnClickListener {
             try {
                 val birthday = Birthday.generateBirthdayFromView(saveBirthdayView)
-                birthdayAdapter.addBirthday(birthday)
+                if (isNewBirthday) birthdayAdapter.addBirthday(birthday) else birthdayAdapter.editBirthday(oldBirthday, birthday)
+
 
                 alertDialog.dismiss()
-            } catch (e: IllegalArgumentException) {
-                Toast.makeText(context, "Bitte alle Felder ausfüllen", Toast.LENGTH_LONG).show()
+            } catch (e: IllegalNameException) {
+                Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+            } catch (e: IllegalDateException) {
+                Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
             }
         }
 

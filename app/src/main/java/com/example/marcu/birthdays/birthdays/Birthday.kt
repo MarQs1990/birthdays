@@ -1,11 +1,14 @@
 package com.example.marcu.birthdays.birthdays
 
 import android.view.View
+import com.example.marcu.birthdays.exceptions.IllegalDateException
+import com.example.marcu.birthdays.exceptions.IllegalNameException
 import kotlinx.android.synthetic.main.activity_new_person.view.*
+import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class Birthday(){
+class Birthday() {
 
     lateinit var firstName: String
     lateinit var secondName: String
@@ -14,21 +17,27 @@ class Birthday(){
 
     private val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")!!
 
-    constructor(_firstName: String, _secondName: String, _birthdayString: String): this(){
+    constructor(_firstName: String, _secondName: String, _birthdayString: String) : this() {
         firstName = _firstName.capitalize()
         secondName = _secondName.capitalize()
         this.birthdayString = _birthdayString
         birthday = LocalDate.parse(birthdayString, formatter)
     }
 
-    constructor(_firstName: String, _secondName: String, birthdayDay:String, birthdayMonth:String, birthdayYear: String): this(){
+    constructor(
+        _firstName: String,
+        _secondName: String,
+        birthdayDay: String,
+        birthdayMonth: String,
+        birthdayYear: String
+    ) : this() {
         firstName = _firstName.capitalize()
         secondName = _secondName.capitalize()
         this.birthdayString = generateBirthdayString(birthdayDay, birthdayMonth, birthdayYear)
         birthday = LocalDate.parse(birthdayString, formatter)
     }
 
-    fun getAge(): Int{
+    fun getAge(): Int {
 
         val currentDate = LocalDate.now()
 
@@ -40,20 +49,24 @@ class Birthday(){
         val currentMonth = currentDate.month
         val currentDay = currentDate.dayOfMonth
 
-        return if (birthdayMonth == currentMonth){
-            if (birthdayDay < currentDay){
+        return if (birthdayMonth == currentMonth) {
+            if (birthdayDay < currentDay) {
                 currentYear - birthdayYear - 1
-            } else{
+            } else {
                 currentYear - birthdayYear
             }
-        } else if (birthdayMonth > currentMonth){
+        } else if (birthdayMonth > currentMonth) {
             currentYear - birthdayYear - 1
-        } else{
+        } else {
             currentYear - birthdayYear
         }
     }
 
-    private fun generateBirthdayString(_birthdayDay: String, _birthdayMonth: String, _birthdayYear: String): String{
+    private fun generateBirthdayString(
+        _birthdayDay: String,
+        _birthdayMonth: String,
+        _birthdayYear: String
+    ): String {
         val birthdayDay: String = if (_birthdayDay.length == 1) {
             "0$_birthdayDay"
         } else {
@@ -81,18 +94,20 @@ class Birthday(){
             checkBirthdayValidity(birthdayDay, birthdayMonth, birthdayYear)
 
             return Birthday(
-                fname,
-                sname,
-                birthdayDay,
-                birthdayMonth,
-                birthdayYear
+                fname, sname, birthdayDay, birthdayMonth, birthdayYear
             )
         }
 
-        private fun checkNameValidity(fname: String, sname: String) {
-            val nameRegex = Regex("^[A-Za-z]+$")
+        private fun checkNameValidity(fname: String, sname: String): Boolean {
+            val nameRegex = Regex("^[A-Za-zÄÖÜäöüß]+$")
 
-            require(!(!nameRegex.matches(fname) && !nameRegex.matches(sname))) { "Name is not a valid name" }
+            try {
+                require(nameRegex.matches(fname) && nameRegex.matches(sname)) { "Name is not a valid name" }
+            } catch (e: IllegalArgumentException) {
+                throw IllegalNameException("Der Name sollte nur aus Buchstaben bestehen")
+            }
+
+            return true
         }
 
         /*
@@ -110,17 +125,41 @@ class Birthday(){
             val monthInt = month.toIntOrNull()
             val yearInt = year.toIntOrNull()
 
-            require(!(dayInt == null || monthInt == null || yearInt == null)) { "Entries in day, month and/or year are not  numbers" }
-
-            require(yearInt <= LocalDate.now().year) { "Year is higher than current year" }
-
-            require(!(dayInt < 1 || monthInt < 1 || monthInt > 12)) { "Day is lower than 1 or month is not between 1 or 12" }
-
-            when (monthInt) {
-                1, 3, 5, 7, 8, 10, 12 -> require(dayInt <= 31) { "In month $monthInt day of birthday can't be $dayInt" }
-                2 -> require(!((yearInt % 4 == 0 && dayInt > 29) || (yearInt % 4 != 0 && dayInt > 28))) { "In month $monthInt day of birthday can't be $dayInt" }
-                4, 6, 9, 11 -> require(dayInt <= 30) { "In month $monthInt day of birthday can't be $dayInt" }
+            try {
+                require(!(dayInt == null || monthInt == null || yearInt == null)) { "Entries in day, month and/or year are not  numbers" }
+            } catch (e: IllegalArgumentException) {
+                throw IllegalDateException("Das Datum darf nur aus Zahlen bestehen")
             }
+
+            try {
+                require(yearInt <= LocalDate.now().year) { "Year is higher than current year" }
+            } catch (e: IllegalArgumentException) {
+                throw IllegalDateException("Diese Person wird erst nächstes Jahr geboren")
+            }
+
+            try {
+                require(dayInt in 1..31) { "Day is lower than 1 or month is not between 1 or 12" }
+            } catch (e: IllegalArgumentException) {
+                throw IllegalDateException("Diesen Tag gibt es nicht")
+            }
+
+            try {
+                require(monthInt in 1..12) { "Day is lower than 1 or month is not between 1 or 12" }
+            } catch (e: IllegalArgumentException) {
+                throw IllegalDateException("Diesen Monat gibt es nicht")
+            }
+
+            try {
+                when (monthInt) {
+                    1, 3, 5, 7, 8, 10, 12 -> require(dayInt <= 31) { "In month $monthInt day of birthday can't be $dayInt" }
+                    2 -> require(!((yearInt % 4 == 0 && dayInt > 29) || (yearInt % 4 != 0 && dayInt > 28))) { "In month $monthInt day of birthday can't be $dayInt" }
+                    4, 6, 9, 11 -> require(dayInt <= 30) { "In month $monthInt day of birthday can't be $dayInt" }
+                }
+            } catch (e: IllegalArgumentException) {
+                throw IllegalDateException("Diesen Tag gibt es in dem Monat nicht")
+            }
+
+
         }
     }
 }
