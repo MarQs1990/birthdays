@@ -1,4 +1,4 @@
-package com.example.marcu.birthdays.fragments
+package com.example.marcu.birthdays.gui.fragments
 
 
 import android.annotation.SuppressLint
@@ -10,7 +10,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatDialogFragment
 import android.widget.NumberPicker
 import com.example.marcu.birthdays.R
-import kotlinx.android.synthetic.main.alarm_time_picker_fragment_layout.*
 import java.lang.ClassCastException
 
 

@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/activity_birthdays"
-        tools:context=".activities.BirthdaysActivity">
+        tools:context=".gui.activities.BirthdaysActivity">
 
     <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"

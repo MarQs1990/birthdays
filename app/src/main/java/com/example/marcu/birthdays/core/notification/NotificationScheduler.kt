@@ -1,4 +1,4 @@
-package com.example.marcu.birthdays.notification
+package com.example.marcu.birthdays.core.notification
 
 import android.app.AlarmManager
 import android.app.NotificationManager
@@ -17,7 +17,7 @@ import android.content.Context.ALARM_SERVICE
 import com.example.marcu.birthdays.core.CHANNEL_ID
 import com.example.marcu.birthdays.core.DAILY_REMINDER_REQUEST_CODE
 import com.example.marcu.birthdays.R
-import com.example.marcu.birthdays.core.BirthdaysDBHandler
+import com.example.marcu.birthdays.birthdays.BirthdaysDBHandler
 import java.time.LocalDateTime
 
 
@@ -70,8 +70,6 @@ object NotificationScheduler {
     }
 
     fun showNotification(context: Context, cls: Class<*>, title: String, content: String) {
-
-        //TODO birthdayToday should be a function, that checks if there is a birthday today
         if (birthdaysToday(context)){
             val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
@@ -102,16 +100,17 @@ object NotificationScheduler {
 
     private fun birthdaysToday(context: Context): Boolean{
 
-        val dbHandler = BirthdaysDBHandler(context)
+        val dbHandler =
+            BirthdaysDBHandler(context)
 
-        val birthdays = dbHandler.findAllPeople(13)
+        val birthdays = dbHandler.getAllBirthdays()
 
         var isBirthdayToday = false
 
         val today = LocalDateTime.now()
-        for (person in birthdays){
-            isBirthdayToday = today.dayOfMonth == person.birthday.dayOfMonth
-                    && today.monthValue == person.birthday.monthValue
+        for (birthday in birthdays){
+            isBirthdayToday = today.dayOfMonth == birthday.birthday.dayOfMonth
+                    && today.monthValue == birthday.birthday.monthValue
         }
 
         return isBirthdayToday

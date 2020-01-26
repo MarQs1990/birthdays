@@ -1,4 +1,4 @@
-package com.example.marcu.birthdays.gui
+package com.example.marcu.birthdays.gui.sidebar
 
 import android.content.Context
 import android.graphics.Typeface

@@ -1,4 +1,4 @@
-package com.example.marcu.birthdays.activities
+package com.example.marcu.birthdays.gui.activities
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -15,8 +15,8 @@ import com.example.marcu.birthdays.R
 import com.example.marcu.birthdays.core.daysReminder
 import com.example.marcu.birthdays.core.hourReminder
 import com.example.marcu.birthdays.core.minuteReminder
-import com.example.marcu.birthdays.fragments.AlarmTimePickerFragment
-import com.example.marcu.birthdays.fragments.ReminderDaysPickerFragment
+import com.example.marcu.birthdays.gui.fragments.AlarmTimePickerFragment
+import com.example.marcu.birthdays.gui.fragments.ReminderDaysPickerFragment
 
 class SettingsActivity : AppCompatActivity(), AlarmTimePickerFragment.TimePickerListener, ReminderDaysPickerFragment.DayPickerListener {
 
@@ -41,12 +41,12 @@ class SettingsActivity : AppCompatActivity(), AlarmTimePickerFragment.TimePicker
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.example.marcu.birthdays.R.layout.activity_settings)
+        setContentView(R.layout.activity_settings)
 
-        alarmIsActive = findViewById(com.example.marcu.birthdays.R.id.birthdayAlarmSwitch)
-        alarmBeforeBirthdayIsActive = findViewById(com.example.marcu.birthdays.R.id.BirthdayReminderSwitch)
+        alarmIsActive = findViewById(R.id.birthdayAlarmSwitch)
+        alarmBeforeBirthdayIsActive = findViewById(R.id.BirthdayReminderSwitch)
 
-        daysReminderBeforeBirthday = findViewById(com.example.marcu.birthdays.R.id.reminderDays)
+        daysReminderBeforeBirthday = findViewById(R.id.reminderDays)
         daysReminderBeforeBirthday.text = Editable.Factory.getInstance().newEditable(daysReminder.toString())
         daysReminderBeforeBirthday.inputType = InputType.TYPE_NULL
         daysReminderBeforeBirthday.setOnTouchListener { _, event ->
@@ -57,7 +57,7 @@ class SettingsActivity : AppCompatActivity(), AlarmTimePickerFragment.TimePicker
             return@setOnTouchListener false
         }
 
-        reminderTimeText = findViewById(com.example.marcu.birthdays.R.id.reminderTimeText)
+        reminderTimeText = findViewById(R.id.reminderTimeText)
         reminderTimeText.text = Editable.Factory.getInstance().newEditable("$hourReminder : $minuteReminder")
         reminderTimeText.inputType = InputType.TYPE_NULL
         reminderTimeText.setOnTouchListener { _, event ->
