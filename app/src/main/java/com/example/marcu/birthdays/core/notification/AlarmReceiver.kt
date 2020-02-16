@@ -9,13 +9,11 @@ import com.example.marcu.birthdays.gui.activities.BirthdaysActivity
 
 class AlarmReceiver : BroadcastReceiver() {
 
-    private val tag = "AlarmReceiver"
-
     override fun onReceive(context: Context, intent: Intent) {
 
         val title = Resources.getSystem().getString(R.string.notification_title)
         val content = Resources.getSystem().getString(R.string.notification_content)
 
-        NotificationScheduler.showNotification(context, BirthdaysActivity::class.java, title, content)
+        NotificationHandler.showNotification(context, title, content)
     }
 }

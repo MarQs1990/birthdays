@@ -1,12 +1,8 @@
 package com.example.marcu.birthdays.gui.activities
 
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
@@ -26,7 +22,8 @@ import com.example.marcu.birthdays.birthdays.Birthday
 import com.example.marcu.birthdays.birthdays.BirthdaysDBHandler
 import com.example.marcu.birthdays.birthdays.MonthsBirthdayView
 import com.example.marcu.birthdays.core.*
-import com.example.marcu.birthdays.core.notification.NotificationScheduler
+import com.example.marcu.birthdays.core.notification.AlarmHandler
+import com.example.marcu.birthdays.core.notification.NotificationHandler
 import com.example.marcu.birthdays.gui.birthdayview.BirthdayAdapter
 import com.example.marcu.birthdays.gui.birthdayview.OnBirthdayClickListener
 import com.example.marcu.birthdays.gui.sidebar.ExpandableListAdapter
@@ -49,12 +46,10 @@ class BirthdaysActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_birthdays)
 
-        createNotificationChannel()
-
         val intent = intent
         val month = intent.getIntExtra("Month", 14)
 
-        NotificationScheduler.setAlarm(this, BirthdaysActivity::class.java, 7, 0)
+        AlarmHandler.setAlarm(this, 7, 0)
 
         initiateToolbar()
 
@@ -318,21 +313,6 @@ class BirthdaysActivity : AppCompatActivity(),
             closeDrawer()
         } else {
             super.onBackPressed()
-        }
-    }
-
-    private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.channel_name)
-            val descriptionText = getString(R.string.channel_description)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
         }
     }
 

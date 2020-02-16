@@ -8,15 +8,11 @@ import android.widget.Toast
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class BirthdaysDBHandler(private var context: Context) : SQLiteOpenHelper(
-    context,
-    DATABASE_NAME, null,
-    DATABASE_VERSION
-) {
+class BirthdaysDBHandler(private var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase) {
         val createPeopleTable =
-            ("CREATE TABLE " + TABLE_PEOPLE + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_FIRSTNAME + " TEXT," + COLUMN_SECONDNAME + " TEXT," + COLUMN_BIRTHDAY + " TEXT," + COLUMN_BIRTHDAYMONTH + " INTEGER" + ")")
+            ("CREATE TABLE $TABLE_PEOPLE($COLUMN_ID INTEGER PRIMARY KEY,$COLUMN_FIRSTNAME TEXT,$COLUMN_SECONDNAME TEXT,$COLUMN_BIRTHDAY TEXT,$COLUMN_BIRTHDAYMONTH INTEGER)")
         db.execSQL(createPeopleTable)
     }
 
@@ -80,21 +76,6 @@ class BirthdaysDBHandler(private var context: Context) : SQLiteOpenHelper(
         }
 
         Toast.makeText(context, "Eintrag geändert", Toast.LENGTH_LONG).show()
-    }
-
-    fun deleteBirthday(fname: String, sname: String, birthdayString: String) {
-        val query =
-            "SELECT * FROM $TABLE_PEOPLE WHERE $COLUMN_FIRSTNAME = \"$fname\" AND $COLUMN_SECONDNAME = \"$sname\" AND $COLUMN_BIRTHDAY = \"$birthdayString\""
-
-        val db = this.writableDatabase
-
-        val cursor = db.rawQuery(query, null)
-
-        if (cursor.moveToFirst()) {
-            val id = Integer.parseInt(cursor.getString(0))
-            db.delete(TABLE_PEOPLE, "$COLUMN_ID = ?", arrayOf(id.toString()))
-            cursor.close()
-        }
     }
 
     fun deleteBirthday(birthday: Birthday) {

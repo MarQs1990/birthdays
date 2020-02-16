@@ -6,7 +6,7 @@
     <!-- permission required to automatically restart a repeating alarm if the user reboots the device -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <application
             android:theme="@style/AppTheme"
             android:allowBackup="true"
@@ -20,17 +20,15 @@
                   android:parentActivityName="com.example.marcu.birthdays.gui.activities.BirthdaysActivity"/>
         <activity
                 android:name="com.example.marcu.birthdays.gui.activities.BirthdaysActivity"
+                android:launchMode="singleTop"
                 android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-                android:name="com.example.marcu.birthdays.gui.activities.SavePersonActivity"
-                android:parentActivityName="com.example.marcu.birthdays.gui.activities.BirthdaysActivity"/>
         <!-- Register the Alarm Receiver -->
-        <receiver android:name="com.example.marcu.birthdays.core.notification.AlarmReceiver"
+        <receiver android:name="com.example.marcu.birthdays.core.notification.BootReceiver"
                   android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
