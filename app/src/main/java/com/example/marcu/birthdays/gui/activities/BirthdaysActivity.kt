@@ -299,6 +299,7 @@ class BirthdaysActivity : AppCompatActivity(),
 
         when (item.itemId) {
             MENU_REMOVE -> birthdayViewAdapter.removeBirthday(birthday)
+            MENU_EDIT -> showEditBirthdayDialog(birthday)
         }
         return true
     }
