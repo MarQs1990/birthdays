@@ -9,7 +9,7 @@ import android.content.pm.PackageManager
 import com.example.marcu.birthdays.core.DAILY_REMINDER_REQUEST_CODE
 import java.util.*
 
-object AlarmHandler {
+object AlarmService {
     private var alarmManager: AlarmManager? = null
     private lateinit var alarmIntent: PendingIntent
     fun setAlarm(context: Context, hour: Int, min: Int) {

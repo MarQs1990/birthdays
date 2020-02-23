@@ -22,8 +22,7 @@ import com.example.marcu.birthdays.birthdays.Birthday
 import com.example.marcu.birthdays.birthdays.BirthdaysDBHandler
 import com.example.marcu.birthdays.birthdays.MonthsBirthdayView
 import com.example.marcu.birthdays.core.*
-import com.example.marcu.birthdays.core.notification.AlarmHandler
-import com.example.marcu.birthdays.core.notification.NotificationHandler
+import com.example.marcu.birthdays.core.notification.AlarmService
 import com.example.marcu.birthdays.gui.birthdayview.BirthdayAdapter
 import com.example.marcu.birthdays.gui.birthdayview.OnBirthdayClickListener
 import com.example.marcu.birthdays.gui.sidebar.ExpandableListAdapter
@@ -49,7 +48,7 @@ class BirthdaysActivity : AppCompatActivity(),
         val intent = intent
         val month = intent.getIntExtra("Month", 14)
 
-        AlarmHandler.setAlarm(this, 7, 0)
+        AlarmService.setAlarm(this, 7, 0)
 
         initiateToolbar()
 

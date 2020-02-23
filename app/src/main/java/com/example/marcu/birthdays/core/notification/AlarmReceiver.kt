@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import com.example.marcu.birthdays.R
-import com.example.marcu.birthdays.gui.activities.BirthdaysActivity
 
 class AlarmReceiver : BroadcastReceiver() {
 
@@ -14,6 +13,6 @@ class AlarmReceiver : BroadcastReceiver() {
         val title = Resources.getSystem().getString(R.string.notification_title)
         val content = Resources.getSystem().getString(R.string.notification_content)
 
-        NotificationHandler.showNotification(context, title, content)
+        NotificationService.showNotification(context, title, content)
     }
 }

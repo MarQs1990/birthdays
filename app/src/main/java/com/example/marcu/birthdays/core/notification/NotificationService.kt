@@ -18,7 +18,7 @@ import com.example.marcu.birthdays.core.DAILY_REMINDER_REQUEST_CODE
 import com.example.marcu.birthdays.gui.activities.BirthdaysActivity
 import java.time.LocalDateTime
 
-object NotificationHandler {
+object NotificationService {
     private const val CHANNEL_ID = "BIRTHDAYALARM"
     private const val CHANNEL_NAME = "Birthday Alarm"
     private const val importance = NotificationManager.IMPORTANCE_DEFAULT
