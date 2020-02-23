@@ -62,6 +62,7 @@ class BirthdayAdapter(
     fun editBirthday(oldBirthday: Birthday, newBirthday: Birthday){
         val birthdayIndex = birthdayList.indexOf(oldBirthday)
         birthdayList[birthdayIndex] = newBirthday
+        dbHandler.editBirthday(oldBirthday, newBirthday)
         notifyItemChanged(birthdayIndex)
     }
 }

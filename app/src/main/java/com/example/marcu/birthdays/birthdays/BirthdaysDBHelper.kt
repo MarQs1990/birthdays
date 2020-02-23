@@ -48,22 +48,22 @@ class BirthdaysDBHandler(private var context: Context) : SQLiteOpenHelper(contex
         println("${birthday.firstName} ${birthday.secondName} hinzugefügt")
     }
 
-    fun editBirthday(birthday: Birthday) {
+    fun editBirthday(oldBirthday: Birthday, newBirthday: Birthday) {
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")!!
-        val birthdayDate = LocalDate.parse(birthday.birthdayString, formatter)
+        val birthdayDate = LocalDate.parse(newBirthday.birthdayString, formatter)
 
-        val fname = birthday.firstName
-        val sname = birthday.secondName
-        val birthdayString = birthday.birthdayString
+        val fnameOldBirthday = oldBirthday.firstName
+        val snameOldBirthday = oldBirthday.secondName
+        val birthdayStringOldBirthday = oldBirthday.birthdayString
 
         val values = ContentValues()
-        values.put(COLUMN_FIRSTNAME, fname)
-        values.put(COLUMN_SECONDNAME, sname)
-        values.put(COLUMN_BIRTHDAY, birthdayString)
+        values.put(COLUMN_FIRSTNAME, newBirthday.firstName)
+        values.put(COLUMN_SECONDNAME, newBirthday.secondName)
+        values.put(COLUMN_BIRTHDAY, newBirthday.birthdayString)
         values.put(COLUMN_BIRTHDAYMONTH, birthdayDate.monthValue)
 
         val query =
-            "SELECT * FROM $TABLE_PEOPLE WHERE $COLUMN_FIRSTNAME = \"$fname\" AND $COLUMN_SECONDNAME = \"$sname\" AND $COLUMN_BIRTHDAY = \"$birthdayString\""
+            "SELECT * FROM $TABLE_PEOPLE WHERE $COLUMN_FIRSTNAME = \"$fnameOldBirthday\" AND $COLUMN_SECONDNAME = \"$snameOldBirthday\" AND $COLUMN_BIRTHDAY = \"$birthdayStringOldBirthday\""
 
         val db = this.writableDatabase
 

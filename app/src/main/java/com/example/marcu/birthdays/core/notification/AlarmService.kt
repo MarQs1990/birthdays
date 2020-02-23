@@ -6,6 +6,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.util.Log
 import com.example.marcu.birthdays.core.DAILY_REMINDER_REQUEST_CODE
 import java.util.*
 
@@ -13,6 +14,7 @@ object AlarmService {
     private var alarmManager: AlarmManager? = null
     private lateinit var alarmIntent: PendingIntent
     fun setAlarm(context: Context, hour: Int, min: Int) {
+        Log.d("AlarmService", "enable boot receiver")
         enableBootReceiver(context)
         val scheduledCalendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
@@ -32,6 +34,7 @@ object AlarmService {
             )
         }
 
+        Log.d("AlarmService", "enable alarm manager for hour: $hour and minute: $min")
         alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager?.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,

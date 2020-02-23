@@ -12,6 +12,7 @@ import android.os.Build
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.app.TaskStackBuilder
+import android.util.Log
 import com.example.marcu.birthdays.R
 import com.example.marcu.birthdays.birthdays.BirthdaysDBHandler
 import com.example.marcu.birthdays.core.DAILY_REMINDER_REQUEST_CODE
@@ -31,6 +32,8 @@ object NotificationService {
             val notificationManager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.notify(DAILY_REMINDER_REQUEST_CODE, notification)
+        } else {
+            Log.d("NotificationService", "No birthdays today")
         }
     }
 
