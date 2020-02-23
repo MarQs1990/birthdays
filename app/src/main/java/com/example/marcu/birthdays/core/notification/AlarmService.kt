@@ -23,7 +23,7 @@ object AlarmService {
 
         val startUpTime = scheduledCalendar.timeInMillis
 
-        val alarmIntent = Intent(context, AlarmReceiver::class.java).let { intent ->
+        val alarmIntent = Intent(context, ReminderReceiver::class.java).let { intent ->
             PendingIntent.getBroadcast(
                 context,
                 DAILY_REMINDER_REQUEST_CODE,
@@ -33,7 +33,7 @@ object AlarmService {
         }
 
         alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager?.setRepeating(
+        alarmManager?.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             startUpTime,
             AlarmManager.INTERVAL_DAY,
@@ -48,7 +48,7 @@ object AlarmService {
     }
 
     private fun enableBootReceiver(context: Context) {
-        val receiver = ComponentName(context, BootReceiver::class.java)
+        val receiver = ComponentName(context, ReminderReceiver::class.java)
 
         context.packageManager.setComponentEnabledSetting(
             receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
@@ -56,7 +56,7 @@ object AlarmService {
     }
 
     private fun disableBootReceiver(context: Context) {
-        val receiver = ComponentName(context, BootReceiver::class.java)
+        val receiver = ComponentName(context, ReminderReceiver::class.java)
 
         context.packageManager.setComponentEnabledSetting(
             receiver, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP

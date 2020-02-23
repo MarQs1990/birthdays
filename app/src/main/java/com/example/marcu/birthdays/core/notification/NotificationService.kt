@@ -87,5 +87,4 @@ object NotificationService {
         val intent = Intent(context, activityForIntent)
         return PendingIntent.getActivity(context, DAILY_REMINDER_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
-
 }
